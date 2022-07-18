@@ -4,26 +4,24 @@ include_once ROOT . '\models\UserModel.php';
 
 class UserController {
 
-    public function actionIndex()
+    public function actionIndex(): void
     {
         $userList = array();
         $userList = UserModel::getUserList();
 
-        $css = file_get_contents(ROOT . '\web\styles.css');
+        $css = file_get_contents(ROOT . '\assets\css\styles.css');
 
         require_once ROOT . '/views/UserListView.php';
-        return true;
     }
 
-    public function actionView($id)
+    public function actionView($id): void
     {
-        $user = UserModel::getUserById($id);
+        UserModel::getUserById($id);
         header('Location: /');
-
-        return true;
+        exit();
     }
 
-    public function actionAdd()
+    public function actionAdd(): void
     {
         $name = $_POST['name'];
         $gender = $_POST['gender'];
@@ -32,11 +30,10 @@ class UserController {
 
         UserModel::addUser($name, $gender, $status, $email);
         header('Location: /');
-
-        return true;
+        exit();
     }
 
-    public function actionEdit($id)
+    public function actionEdit($id): void
     {
         $name = $_POST['name'];
         $gender = $_POST['gender'];
@@ -45,16 +42,14 @@ class UserController {
 
         UserModel::editUserById($id, $name, $gender, $status, $email);
         header('Location: /');
-
-        return true;
+        exit();
     }
 
-    public function actionDelete($id)
+    public function actionDelete($id): void
     {
         UserModel::deleteUserById($id);
         header('Location: /');
-
-        return true;
+        exit();
     }
 
 }

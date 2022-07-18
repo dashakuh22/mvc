@@ -3,22 +3,19 @@
 class UserModel
 {
 
-    public static function getUserById($userId)
+    public static function getUserById(int $userId): bool
     {
-        $userId = intval($userId);
+        $db = DB::getConnection();
 
-        if ($userId) {
-            $db = DB::getConnection();
+        $query = "SELECT name, gender, status, email FROM mvcdb WHERE id=:id";
+        $result = $db->prepare($query);
 
-            $query = "SELECT name, gender, status, email FROM mvcdb WHERE id=".$userId;
-            $result = $db->query($query);
-            $result->setFetchMode(PDO::FETCH_ASSOC);
+        $result->bindParam(':id', $userId, PDO::PARAM_INT);
 
-            return $result->fetch();
-        }
+        return $result->execute();
     }
 
-    public static function getUserList()
+    public static function getUserList(): array
     {
         $db = DB::getConnection();
 
@@ -38,7 +35,7 @@ class UserModel
         return $userList;
     }
 
-    public static function addUser($userName, $userGender, $userStatus, $userEmail)
+    public static function addUser(string $userName, string $userGender, string $userStatus, string $userEmail): bool
     {
         $db = DB::getConnection();
 
@@ -54,7 +51,7 @@ class UserModel
         return $result->execute();
     }
 
-    public static function editUserById($userId, $userName, $userGender, $userStatus, $userEmail)
+    public static function editUserById(int $userId, string $userName, string $userGender, string $userStatus, string $userEmail): bool
     {
         $db = DB::getConnection();
 
@@ -72,21 +69,16 @@ class UserModel
         return $result->execute();
     }
 
-    public static function deleteUserById($userId)
+    public static function deleteUserById(int $userId): bool
     {
-        $userId = intval($userId);
+        $db = DB::getConnection();
 
-        if ($userId) {
+        $query = "DELETE FROM mvcdb WHERE id=:id";
+        $result = $db->prepare($query);
 
-            $db = DB::getConnection();
+        $result->bindParam(':id', $userId, PDO::PARAM_INT);
 
-            $query = "DELETE FROM mvcdb WHERE id=:id";
-            $result = $db->prepare($query);
-
-            $result->bindParam(':id', $userId, PDO::PARAM_INT);
-
-            return $result->execute();
-        }
+        return $result->execute();
     }
 
 }

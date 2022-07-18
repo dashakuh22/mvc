@@ -1,5 +1,5 @@
 <!-- Header HTML -->
-<?php require_once ROOT . '/views/layouts/header.php'; ?>
+<?php require_once ROOT . '/views/layouts/head.php'; ?>
 <body>
 <div class="container">
     <div class="table-responsive">
@@ -36,6 +36,7 @@
 </div>
 <!-- Add Modal HTML -->
 <?php $action = "add"; $value = "Add"; include ROOT . '/views/layouts/editForm.php'; ?>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
-<!-- Footer HTML -->
-<?php require_once ROOT . '/views/layouts/footer.php'; ?>
+</html>

@@ -1,8 +1,8 @@
 <?php
 
-return array(
+return [
     'host' => 'localhost',
     'dbName' => 'mvcdb',
     'userName' => 'root',
     'password' => ''
-);
+];
