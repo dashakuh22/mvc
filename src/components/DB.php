@@ -9,8 +9,9 @@ class DB {
             $paramsPath = file_build_path(ROOT, 'config', 'db_params.php');
             $params = include $paramsPath;
 
-            //$dsn = "mysql:host={$params['host']};dbname={$params['dbName']}"; // убираем перед
-            //return new PDO($dsn, $params['userName'], $params['password']); // commit and push
+
+           // $dsn = "mysql:host={$params['host']};dbname={$params['dbName']}"; // убираем перед
+           // return new PDO($dsn, $params['userName'], $params['password']); // commit and push
 
         } catch (Exception $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
