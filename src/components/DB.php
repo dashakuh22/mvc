@@ -2,10 +2,11 @@
 
 class DB {
 
-    public static function getConnection() {
+    public static function getConnection(): PDO
+    {
         try {
 
-            $paramsPath = ROOT . '\config\db_params.php';
+            $paramsPath = file_build_path(ROOT, 'config', 'db_params.php');
             $params = include $paramsPath;
 
             //$dsn = "mysql:host={$params['host']};dbname={$params['dbName']}"; // убираем перед

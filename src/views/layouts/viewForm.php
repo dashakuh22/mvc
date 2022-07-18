@@ -6,14 +6,14 @@
         <td><?= $userList[$i]['email'] ?></td>
         <td>
             <!-- Edit Modal HTML -->
-            <?php $action = "edit"; $value = "Save"; require ROOT . '/views/layouts/editForm.php'; ?>
+            <?php $action = "edit"; $value = "Save"; include file_build_path(ROOT, 'views', 'layouts', 'editForm.php'); ?>
             <a href="#editUserModal<?=$userList[$i]['id']?>" class="edit" data-toggle="modal">
                 <i class="material-icons" data-toggle="tooltip" title="Edit">
                     &#xE254;
                 </i>
             </a>
             <!-- Delete Modal HTML -->
-            <?php require ROOT . '/views/layouts/deleteForm.php'; ?>
+            <?php include file_build_path(ROOT, 'views', 'layouts', 'deleteForm.php'); ?>
             <a href="#deleteUserModal<?=$userList[$i]['id']?>" class="delete" data-toggle="modal">
                 <i class="material-icons" data-toggle="tooltip" title="Delete">
                     &#xE872;

@@ -1,6 +1,6 @@
 <?php
 
-include_once ROOT . '\models\UserModel.php';
+include_once file_build_path(ROOT, 'models', 'UserModel.php');
 
 class UserController {
 
@@ -9,9 +9,9 @@ class UserController {
         $userList = array();
         $userList = UserModel::getUserList();
 
-        $css = file_get_contents(ROOT . '\assets\css\styles.css');
+        //$css = file_get_contents(ROOT . '\assets\css\styles.css');
 
-        require_once ROOT . '/views/UserListView.php';
+        require_once file_build_path(ROOT, 'views', 'UserListView.php');
     }
 
     public function actionView($id): void

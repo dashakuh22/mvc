@@ -1,5 +1,5 @@
 <!-- Header HTML -->
-<?php require_once ROOT . '/views/layouts/head.php'; ?>
+<?php require_once file_build_path(ROOT, 'views', 'layouts', 'head.php'); ?>
 <body>
 <div class="container">
     <div class="table-responsive">
@@ -28,14 +28,14 @@
                 </thead>
                 <tbody>
                 <!-- View List HTML -->
-                <?php include ROOT . '/views/layouts/viewForm.php'; ?>
+                <?php include file_build_path(ROOT, 'views', 'layouts', 'viewForm.php'); ?>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 <!-- Add Modal HTML -->
-<?php $action = "add"; $value = "Add"; include ROOT . '/views/layouts/editForm.php'; ?>
+<?php $action = "add"; $value = "Add"; include file_build_path(ROOT, 'views', 'layouts', 'editForm.php'); ?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>

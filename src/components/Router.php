@@ -6,7 +6,7 @@ class Router
 
     public function __construct()
     {
-        $routesPath = ROOT . '/config/routes.php';
+        $routesPath = file_build_path(ROOT, 'config', 'routes.php');
         $this->routes = include($routesPath);
     }
 
@@ -18,7 +18,7 @@ class Router
         return null;
     }
 
-    public function run()
+    public function run(): void
     {
         $uri = $this->getURI();
 
