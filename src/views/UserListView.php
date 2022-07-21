@@ -31,6 +31,19 @@
                 <?php include file_build_path(ROOT, 'views', 'layouts', 'viewForm.php'); ?>
                 </tbody>
             </table>
+            <div class="clearfix">
+                <ul class="pagination">
+                    <li class="page-item <?= $pagination->isStart() ?>">
+                        <a href="/<?= $pagination->page_prev; ?>" class="page-link">Prev</a>
+                    </li>
+                    <li class="page-item active">
+                        <a href="/<?= $pagination->page_cur; ?>" class="page-link"><?= $pagination->page_cur; ?></a>
+                    </li>
+                    <li class="page-item <?= $pagination->isEnd() ?>">
+                        <a href="/<?= $pagination->page_next; ?>" class="page-link">Next</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>

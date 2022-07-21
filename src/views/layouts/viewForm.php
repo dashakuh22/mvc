@@ -1,5 +1,4 @@
 <?php include_once file_build_path(ROOT, 'models', 'User.php');
-
 for ($i = 0; !empty($userList) && $i < sizeof($userList); $i++) {
     $user = new User($userList[$i]->name, $userList[$i]->gender,
                      $userList[$i]->status, $userList[$i]->email,

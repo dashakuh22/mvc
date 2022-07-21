@@ -1,5 +1,7 @@
 <?php
+
 include_once file_build_path(ROOT, 'models', 'UserModel.php');
+include_once file_build_path(ROOT, 'components', 'Pagination.php');
 
 class UserController {
 
@@ -8,22 +10,29 @@ class UserController {
     public string $gender;
     public string $status;
     public string $email;
+    public int $pageIndex;
 
     public function __construct()
     {
         $this->userModel = new UserModel();
+        $this->pageIndex = 1;
     }
 
-    public function actionIndex(): void
+    public function actionIndex(int $pageIndex = null): void
     {
         $userList = array();
-        $userList = $this->userModel->getUserList();
+        if (!is_null($pageIndex)) {
+            $this->pageIndex = $pageIndex;
+        }
+        $userList = $this->userModel->getUserList($this->pageIndex);
         $userList = json_decode($userList);
+        $pagination = new Pagination($this->pageIndex, $userList);
 
         require_once file_build_path(ROOT, 'views', 'UserListView.php');
+        exit();
     }
 
-    public function actionView($id): void
+    public function actionView(int $id): void
     {
         $user = $this->userModel->getUser($id);
         header('Location: /');
@@ -37,14 +46,14 @@ class UserController {
         exit();
     }
 
-    public function actionEdit($id): void
+    public function actionEdit(int $id): void
     {
         $this->userModel->editUser($id, $this->getParams());
         header('Location: /');
         exit();
     }
 
-    public function actionDelete($id): void
+    public function actionDelete(int $id): void
     {
         $this->userModel->deleteUser($id);
         header('Location: /');
