@@ -31,12 +31,12 @@ class Router {
                 $actionName = 'action' . ucfirst(array_shift($pathParts));
                 $params = $pathParts;
 
-//                echo '<pre>';
-//                echo $uri.'<br>';
-//                echo $controllerName.'<br>';
-//                echo $actionName.'<br>';
-//                print_r($params);
-//                echo '</pre>';
+/*                echo '<pre>';
+                echo $uri.'<br>';
+                echo $controllerName.'<br>';
+                echo $actionName.'<br>';
+                print_r($params);
+                echo '</pre>';*/
 
                 $controllerFile = file_build_path(ROOT, 'controllers', $controllerName . '.php');
                 if (file_exists($controllerFile)) {

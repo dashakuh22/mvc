@@ -17,7 +17,7 @@
                         <select name="gender" class="form-control" required>
                             <option hidden></option>
                             <?php foreach ($user->gender_values as $gender): ?>
-                                <option <?= $gender === ucfirst($user->gender) ? 'selected' : ''; ?>
+                                <option <?= $gender === $user->gender ? 'selected' : ''; ?>
                                     value="<?=$gender?>"><?=$gender?></option>
                             <?php endforeach; ?>
                         </select>
@@ -27,7 +27,7 @@
                         <select name="status" class="form-control" required>
                             <option hidden></option>
                             <?php foreach ($user->status_values as $status): ?>
-                                <option <?= $status === ucfirst($user->status) ? 'selected': ''; ?>
+                                <option <?= $status === $user->status ? 'selected': ''; ?>
                                     value="<?=$status?>"><?=$status?></option>
                             <?php endforeach; ?>
                         </select>

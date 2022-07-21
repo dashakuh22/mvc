@@ -2,32 +2,15 @@
 
 class REST {
 
-    private array $configs;
-
-    public function __construct()
+    public static function getConfigFileContent(): array
     {
         $configPath = file_build_path(ROOT, 'configs', 'configREST.php');
-        $this->configs = include $configPath;
+        return include $configPath;
     }
 
-    public static function getContent(): string
+    public static function getConfigs(string $config): string
     {
-        try {
-            $content = file_get_contents(self::getURL());
-            return $content;
-        } catch (Exception $e) {
-            print "Error!: " . $e->getMessage() . "<br/>";
-            die();
-        }
+        return self::getConfigFileContent()[$config];
     }
 
-    public function getURL(): string
-    {
-        return $this->configs['url'];
-    }
-
-    public function getToken(): string
-    {
-        return $this->configs['token'];
-    }
 }

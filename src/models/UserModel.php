@@ -4,12 +4,15 @@ require file_build_path(ROOT, 'components', 'REST.php');
 
 class UserModel
 {
-    private REST $rest;
-
-    public function __construct()
-    {
-        $this->rest = new REST();
-    }
+    private array $optionValue = [
+        'receive' => [
+            'Content-Type: application/json'
+        ],
+        'accept' => [
+            'Accept: application/json',
+            'Content-Type: application/json'
+        ]
+    ];
 
     public function getUser(int $id): string
     {
@@ -58,8 +61,8 @@ class UserModel
 
     public function getCurlByOptions(CurlHandle $curl, string $action, int $id = -1, array $data = []): string
     {
-        $url = $id < 0 ? $this->rest->getURL() . "?access-token=" . $this->rest->getToken() :
-                         $this->rest->getURL() . "/$id?access-token=" . $this->rest->getToken();
+        $url = $id < 0 ? REST::getConfigs('url') . "?access-token=" . REST::getConfigs('token') :
+                         REST::getConfigs('url') . "/$id?access-token=" . REST::getConfigs('token');
 
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -67,15 +70,16 @@ class UserModel
 
         switch ($action) {
             case 'DELETE':
-            case 'GET' && $id < 0:
-                curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+                curl_setopt($curl, CURLOPT_HTTPHEADER, $this->optionValue['receive']);
+                break;
+            case 'GET':
+                curl_setopt($curl, CURLOPT_HTTPHEADER,
+                    $id < 0 ? $this->optionValue['receive'] : $this->optionValue['accept']);
                 break;
             case 'POST':
             case 'PUT':
                 curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
-            case 'GET' && $id > 0:
-                curl_setopt($curl, CURLOPT_HTTPHEADER, array('Accept: application/json',
-                                                                    'Content-Type: application/json'));
+                curl_setopt($curl, CURLOPT_HTTPHEADER, $this->optionValue['accept']);
                 break;
         }
         return curl_exec($curl);

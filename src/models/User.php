@@ -7,10 +7,10 @@ class User {
     public $email;
 
     public $gender;
-    public $gender_values = ['Male', 'Female'];
+    public $gender_values = ['male', 'female'];
 
     public $status;
-    public $status_values = ['Active', 'Inactive'];
+    public $status_values = ['active', 'inactive'];
 
     public $action;
     public $action_values = ['add', 'edit'];
