@@ -13,6 +13,7 @@ class User {
     public $status_values = ['active', 'inactive'];
 
     public $action;
+    public $action_value;
     public $action_values = ['add', 'edit'];
 
     public function __construct(string $name= '', string $gender = '',
@@ -25,11 +26,17 @@ class User {
         $this->email = $email;
         $this->id = $id;
         $this->action = $this->getAction();
+        $this->action_value = $this->getActionValue();
     }
 
     public function getAction(): string
     {
         return $this->id === '' ? $this->action_values[0] : $this->action_values[1];
+    }
+
+    public function getActionValue(): string
+    {
+        return $this->action === 'edit' ? 'Save' : 'Add';
     }
 
 }

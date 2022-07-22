@@ -5,6 +5,6 @@ return [
     'user/edit/([0-9]+)' => 'user/edit/$1',
     'user/view/([0-9]+)' => 'user/view/$1',
     'user/add' => 'user/add',
-    '([0-9]+)' => 'user/index/$1',
+    'page-([0-9]+)' => 'user/index/$1',
     '' => 'user/index',
 ];

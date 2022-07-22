@@ -34,13 +34,13 @@
             <div class="clearfix">
                 <ul class="pagination">
                     <li class="page-item <?= $pagination->isStart() ?>">
-                        <a href="/<?= $pagination->page_prev; ?>" class="page-link">Prev</a>
+                        <a href="/page-<?= $pagination->page_prev; ?>" class="page-link">Prev</a>
                     </li>
                     <li class="page-item active">
-                        <a href="/<?= $pagination->page_cur; ?>" class="page-link"><?= $pagination->page_cur; ?></a>
+                        <a href="/page-<?= $pagination->page_cur; ?>" class="page-link"><?= $pagination->page_cur; ?></a>
                     </li>
                     <li class="page-item <?= $pagination->isEnd() ?>">
-                        <a href="/<?= $pagination->page_next; ?>" class="page-link">Next</a>
+                        <a href="/page-<?= $pagination->page_next; ?>" class="page-link">Next</a>
                     </li>
                 </ul>
             </div>
