@@ -8,9 +8,6 @@ class UserController {
     {
         $userList = array();
         $userList = UserModel::getUserList();
-
-        //$css = file_get_contents(ROOT . '\assets\css\styles.css');
-
         require_once file_build_path(ROOT, 'views', 'UserListView.php');
     }
 

@@ -1,8 +1,5 @@
 <?php
 
-//ini_set('display_errors', 1); // убираем перед
-//error_reporting(E_ALL); // commit and push
-
 const ROOT = __DIR__;
 
 function file_build_path(...$segments) {

@@ -2,7 +2,8 @@
 
 return [
     'host' => 'localhost',
-    'dbName' => 'mvcdb',
+    'dbName' => 'users_db',
+    'dbTableName' => 'users',
     'userName' => 'root',
     'password' => ''
 ];

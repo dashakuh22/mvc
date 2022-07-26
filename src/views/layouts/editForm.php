@@ -14,9 +14,10 @@
                     </div>
                     <div class="form-group">
                         <label>Gender</label>
-                        <select name="status" class="form-control" required>
+                        <select name="gender" class="form-control" required>
+                            <option hidden></option>
                             <?php foreach ($user->gender_values as $gender): ?>
-                                <option <?=$user->gender === $gender ? 'selected': ''?>
+                                <option <?= $gender === ucfirst($user->gender) ? 'selected' : ''; ?>
                                         value="<?=$gender?>"><?=$gender?></option>
                             <?php endforeach; ?>
                         </select>
@@ -24,8 +25,9 @@
                     <div class="form-group">
                         <label>Status</label>
                         <select name="status" class="form-control" required>
+                            <option hidden></option>
                             <?php foreach ($user->status_values as $status): ?>
-                                <option <?=$user->status === $status ? 'selected': ''?>
+                                <option <?= $status === ucfirst($user->status) ? 'selected': ''; ?>
                                         value="<?=$status?>"><?=$status?></option>
                             <?php endforeach; ?>
                         </select>

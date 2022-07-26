@@ -25,12 +25,7 @@ class Router
         foreach ($this->routes as $uriPattern => $path) {
             if (preg_match("~$uriPattern~", $uri)) {
 
-//                echo 'uri: '.$uri.'<br>';
-//                echo 'uriPattern: '.$uriPattern.'<br>';
-//                echo 'path: '.$path.'<br>';
-
-                $internalRoute = preg_replace("~$uriPattern~", $path, $uri); //?????
-//                echo 'internalRoute: '.$internalRoute.'<br>';
+                $internalRoute = preg_replace("~$uriPattern~", $path, $uri);
 
                 $pathParts = explode('/', $internalRoute);
 

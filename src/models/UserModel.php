@@ -7,7 +7,7 @@ class UserModel
     {
         $db = DB::getConnection();
 
-        $query = "SELECT name, gender, status, email FROM mvcdb WHERE id=:id";
+        $query = "SELECT name, gender, status, email FROM " . DB::$dbName . " WHERE id=:id";
         $result = $db->prepare($query);
 
         $result->bindParam(':id', $userId, PDO::PARAM_INT);
@@ -19,7 +19,7 @@ class UserModel
     {
         $db = DB::getConnection();
 
-        $query = "SELECT name, gender, status, email, id FROM mvcdb";
+        $query = "SELECT name, gender, status, email, id FROM " . DB::$dbName;
         $result = $db->query($query);
 
         $userList = array();
@@ -39,14 +39,14 @@ class UserModel
     {
         $db = DB::getConnection();
 
-        $query = "INSERT INTO mvcdb (name, gender, status, email) 
+        $query = "INSERT INTO " . DB::$dbName . " (name, gender, status, email) 
                   VALUES (:name, :gender, :status, :email)";
         $result = $db->prepare($query);
 
-        $result->bindParam(':name', $userName, PDO::PARAM_STR);
-        $result->bindParam(':gender', $userGender, PDO::PARAM_STR);
-        $result->bindParam(':status', $userStatus, PDO::PARAM_STR);
-        $result->bindParam(':email', $userEmail, PDO::PARAM_STR);
+        $result->bindParam(':name', $userName);
+        $result->bindParam(':gender', $userGender);
+        $result->bindParam(':status', $userStatus);
+        $result->bindParam(':email', $userEmail);
 
         return $result->execute();
     }
@@ -55,15 +55,13 @@ class UserModel
     {
         $db = DB::getConnection();
 
-        $query = "UPDATE mvcdb 
-                  SET name = :name, gender = :gender, status = :status, email = :email  
-                  WHERE id=:id";
+        $query = "UPDATE " . DB::$dbName . " SET name=:name, gender=:gender, status=:status, email=:email  WHERE id=:id";
         $result = $db->prepare($query);
 
-        $result->bindParam(':name', $userName, PDO::PARAM_STR);
-        $result->bindParam(':gender', $userGender, PDO::PARAM_STR);
-        $result->bindParam(':status', $userStatus, PDO::PARAM_STR);
-        $result->bindParam(':email', $userEmail, PDO::PARAM_STR);
+        $result->bindParam(':name', $userName);
+        $result->bindParam(':gender', $userGender);
+        $result->bindParam(':status', $userStatus);
+        $result->bindParam(':email', $userEmail);
         $result->bindParam(':id', $userId, PDO::PARAM_INT);
 
         return $result->execute();
@@ -73,7 +71,7 @@ class UserModel
     {
         $db = DB::getConnection();
 
-        $query = "DELETE FROM mvcdb WHERE id=:id";
+        $query = "DELETE FROM " . DB::$dbName . " WHERE id=:id";
         $result = $db->prepare($query);
 
         $result->bindParam(':id', $userId, PDO::PARAM_INT);

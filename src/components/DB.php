@@ -2,6 +2,8 @@
 
 class DB {
 
+    public static string $dbName;
+
     public static function getConnection(): PDO
     {
         try {
@@ -9,9 +11,10 @@ class DB {
             $paramsPath = file_build_path(ROOT, 'config', 'db_params.php');
             $params = include $paramsPath;
 
+//            self::$dbName = $params['dbTableName'];
+  //          $dsn = "mysql:host={$params['host']};dbname={$params['dbName']}";
 
-           // $dsn = "mysql:host={$params['host']};dbname={$params['dbName']}"; // убираем перед
-           // return new PDO($dsn, $params['userName'], $params['password']); // commit and push
+            return new PDO($dsn, $params['userName'], $params['password']);
 
         } catch (Exception $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
