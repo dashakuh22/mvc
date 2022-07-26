@@ -6,5 +6,6 @@ return [
     'user/view/([0-9]+)' => 'user/view/$1',
     'user/add' => 'user/add',
     'page-([0-9]+)' => 'user/index/$1',
+    'noAccessToken' => 'user/fail',
     '' => 'user/index',
 ];
