@@ -3,7 +3,8 @@
 include_once file_build_path(ROOT, 'models', 'UserModel.php');
 include_once file_build_path(ROOT, 'components', 'Pagination.php');
 
-class UserController {
+class UserController
+{
 
     public UserModel $userModel;
     public string $name;
@@ -29,6 +30,12 @@ class UserController {
         $pagination = new Pagination($this->pageIndex, $userList);
 
         require_once file_build_path(ROOT, 'views', 'UserListView.php');
+        exit();
+    }
+
+    public function actionFail(): void
+    {
+        require_once file_build_path(ROOT, 'views', 'layouts', 'fail.php');
         exit();
     }
 

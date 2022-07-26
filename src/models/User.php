@@ -1,22 +1,32 @@
 <?php
 
-class User {
+class User
+{
 
     public $id;
     public $name;
     public $email;
 
     public $gender;
-    public $gender_values = ['male', 'female'];
+    public $gender_values = [
+        'male' => 'Male',
+        'female' => 'Female'
+    ];
 
     public $status;
-    public $status_values = ['active', 'inactive'];
+    public $status_values = [
+        'active' => 'Active',
+        'inactive' => 'Inactive'
+    ];
 
     public $action;
     public $action_value;
-    public $action_values = ['add', 'edit'];
+    public $action_values = [
+        'addUser' => 'add',
+        'editUser' => 'edit'
+    ];
 
-    public function __construct(string $name= '', string $gender = '',
+    public function __construct(string $name = '', string $gender = '',
                                 string $status = '', string $email = '',
                                 string $id = '')
     {
@@ -31,12 +41,12 @@ class User {
 
     public function getAction(): string
     {
-        return $this->id === '' ? $this->action_values[0] : $this->action_values[1];
+        return $this->id === '' ? $this->action_values['addUser'] : $this->action_values['editUser'];
     }
 
     public function getActionValue(): string
     {
-        return $this->action === 'edit' ? 'Save' : 'Add';
+        return $this->action === $this->action_values['editUser'] ? 'Save' : 'Add';
     }
 
 }

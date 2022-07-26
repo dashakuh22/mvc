@@ -1,12 +1,13 @@
 <?php
 
-class Router {
+class Router
+{
 
     private $routes;
 
     public function __construct()
     {
-        $this->routes = include file_build_path(ROOT, 'configs', 'configRoutes.php');
+        $this->routes = include file_build_path(ROOT, 'config', 'configRoutes.php');
     }
 
     public function getURI(): ?string
