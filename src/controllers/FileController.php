@@ -8,7 +8,6 @@ class FileController {
     public int $fileSize;
     public string $fileName;
     public string $fileType;
-    public string $fileError;
     public string $fileExtension;
 
     public DateTime $fileDate;
@@ -25,21 +24,24 @@ class FileController {
 
     public function actionIndex(): void
     {
+        $fileError = '';
         $data = $this->model->getFiles();
         $data = array_diff($data, ['.', '..']);
-        echo $this->twig->getAll($data);
+        echo $this->twig->getAll($data, $fileError);
     }
 
     public function actionUpload(): void
     {
+        $fileError = '';
         if (isset($_FILES['file'])) {
             $data = $this->getData();
-            $error = $this->model->uploadFile($data['extension'], $data['size'], $data['tmp_name']);
-            $this->model->updateLog($data['name'], $data['convertedSize'], $error);
+            $fileError = $this->model->uploadFile($data['extension'], $data['size'], $data['tmp_name']);
+            $this->model->updateLog($data['name'], $data['convertedSize'], $fileError);
         }
-//        print_r($data);
-//        echo $this->twig->isUploaded($error);
-  //      header('Location: /');
+        $data = $this->model->getFiles();
+        $data = array_diff($data, ['.', '..']);
+        echo $this->twig->isUploaded($data, $fileError);
+        //header('Location: /');
     }
 
     public function getData(): array

@@ -28,7 +28,7 @@ class FileModel {
         $this->curDir = getcwd();
         @mkdir($this->curDir . $this->configs['files']);
         @mkdir($this->curDir . $this->configs['logs']);
-
+        date_default_timezone_set('Europe/Minsk');
     }
 
     public function getFiles(): array
@@ -56,7 +56,7 @@ class FileModel {
     public function updateLog(string $name, string $size, string $error): void
     {
         $date = date('d-m-Y');
-        $time = date("h:i:s");
+        $time = date("H:i:s");
         $logFileName = $this->curDir . $this->configs['logs'] . 'upload_' . date('dmY') . '.log';
         $info = "Date: $date\nTime: $time\nFile name: $name\nFile size: $size\nFile error: $error\n*****************\n";
         file_put_contents($logFileName, $info, FILE_APPEND);

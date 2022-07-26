@@ -1,17 +1,16 @@
 <?php
 
-require_once file_build_path( ROOT, 'controllers', 'FileController.php');
-
-class Router {
-
+class Router
+{
     private $routes;
 
     public function __construct()
     {
-        $this->routes = require_once file_build_path(ROOT, 'configs', 'configRoutes.php');
+        $routesPath = file_build_path(ROOT, 'configs', 'configRoutes.php');
+        $this->routes = include($routesPath);
     }
 
-    public function getURI(): ?string
+    private function getURI(): ?string
     {
         if (!empty($_SERVER['REQUEST_URI'])) {
             return trim($_SERVER['REQUEST_URI'], '/');
@@ -26,21 +25,20 @@ class Router {
         foreach ($this->routes as $uriPattern => $path) {
             if (preg_match("~$uriPattern~", $uri)) {
 
-                $internalRoute = preg_replace("~$uriPattern~", $path, $uri);
+//                echo 'uri: '.$uri.'<br>';
+//                echo 'uriPattern: '.$uriPattern.'<br>';
+//                echo 'path: '.$path.'<br>';
+
+                $internalRoute = preg_replace("~$uriPattern~", $path, $uri); //?????
+//                echo 'internalRoute: '.$internalRoute.'<br>';
+
                 $pathParts = explode('/', $internalRoute);
 
                 $controllerName = ucfirst(array_shift($pathParts) . 'Controller');
-
                 $actionName = 'action' . ucfirst(array_shift($pathParts));
                 $params = $pathParts;
 
-//                echo $controllerName;
-//                echo '<br>';
-//                echo $actionName;
-//                echo '<br>';
-//                print_r($params);
-
-                $controllerFile = file_build_path(ROOT, 'controllers', $controllerName . 'Controller.php');
+                $controllerFile = file_build_path(ROOT, 'controllers', $controllerName . '.php');
                 if (file_exists($controllerFile)) {
                     include_once $controllerFile;
                 }
@@ -54,5 +52,4 @@ class Router {
         }
 
     }
-
 }

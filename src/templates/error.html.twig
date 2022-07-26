@@ -1,16 +1,18 @@
-<div id="error" class="modal fade">
+<div id="error" style="{{ styleResult }}" class="modal {{ showResult }}">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="/" method="post">
+            <form>
                 <div class="modal-header">
-                    <h4 class="modal-title">Error</h4>
+                    <h4 class="modal-title">Notification</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <p>{{ $result }}</p>
+                    <p>{{ result }}</p>
                 </div>
                 <div class="modal-footer">
-                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    <div class="col-sm-1">
+                        <a href="/" class="btn btn-default cancelButton" data-dismiss="modal">Cancel</a>
+                    </div>
                 </div>
             </form>
         </div>

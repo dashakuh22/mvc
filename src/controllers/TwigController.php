@@ -18,17 +18,23 @@ class TwigController  {
         ]);
     }
 
-    public function getAll(array $files): void
+    public function getAll(array $files, string $result): void
     {
         echo $this->twig->render('index.html.twig', [
-            'files' => $files
+            'files' => $files,
+            'result' => $result,
+            'showResult' => "fade",
+            'styleResult' => "display: none"
         ]);
     }
 
-    public function isUploaded(string $result): void
+    public function isUploaded(array $files, string $result): void
     {
         echo $this->twig->render('index.html.twig', [
-            '{% extends "error.html.twig" %}'
+            'files' => $files,
+            'result' => $result,
+            'showResult' => "fade in",
+            'styleResult' => "display: block; padding-right: 17px;"
         ]);
     }
 
