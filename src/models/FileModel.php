@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use PNGMetadata\PNGMetadata;
+
 class FileModel
 {
 
-    private $configs;
+    private mixed $configs;
     private string $curDir;
     private string $error;
 
@@ -17,7 +19,7 @@ class FileModel
     ];
 
     private array $supported_extensions = [
-        'picture' => [
+        'image' => [
             'jpg', 'jpeg', 'gif', 'png', 'psd', 'ico',
         ],
         'text' => [
@@ -39,9 +41,7 @@ class FileModel
     public function getFiles(): array
     {
         $files = scandir($this->curDir . $this->configs['files']);
-        $files = array_diff($files, ['.', '..']);
-
-        return $files;
+        return array_diff($files, ['.', '..']);
     }
 
     public function getLogs(): array
@@ -71,7 +71,7 @@ class FileModel
 
     public function checkFileExtension(string $fileExtension): bool
     {
-        if (!$this->checkByType($fileExtension, 'picture') &&
+        if (!$this->checkByType($fileExtension, 'image') &&
             !$this->checkByType($fileExtension, 'text')) {
             $this->error = $this->errors['Bad extension'];
             return false;
@@ -96,8 +96,7 @@ class FileModel
 
     public function checkFileIsUploaded(string $name, string $tempName, int $size, string $extension): bool
     {
-        $id = str_replace('.', '', uniqid('', true));
-        $destination = $this->curDir . $this->configs['files'] . $id . '.' . $name . '.' . $size . '.' . $extension;
+        $destination = $this->createFileName($name, $size, $extension);
         if (!move_uploaded_file($tempName, $destination)) {
             $this->error = $this->errors['Bad file'];
             return false;
@@ -105,9 +104,19 @@ class FileModel
         return true;
     }
 
+    public function createFileName(string $name, int $size, string $extension): string
+    {
+        $id = str_replace('.', '', uniqid('', true));
+        $type = $this->checkByType($extension, 'text') ? 'text' : 'image';
+        return $this->curDir . $this->configs['files'] . $id . '.' . $name . '.' . $type . '.' . $size . '.' . $extension;
+    }
+
     public function getEXIF(string $fileName, string $fileExtension): array|bool
     {
-        if ($this->checkByType($fileExtension, 'picture')) {
+        if ($this->checkByType($fileExtension, 'image')) {
+            if ($fileExtension === 'png') {
+                return PNGMetadata::extract($this->curDir . $this->configs['files'] . $fileName)->toArray();
+            }
             return @exif_read_data($this->curDir . $this->configs['files'] . $fileName);
         }
         return false;

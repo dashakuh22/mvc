@@ -10,8 +10,10 @@
                     <div class="form-group">
                         <label>File Name</label>
                         <input class="form-control" value="{{ file.name }}" disabled>
-                        <label>File Type</label>
+                        <label>File Extension</label>
                         <input class="form-control" value="{{ file.extension }}" disabled>
+                        <label>File Type</label>
+                        <input class="form-control" value="{{ file.type }}" disabled>
                         <label>File Size</label>
                         <input class="form-control" value="{{ file.size }}" disabled>
                         {% if file.meta|length > 0 %}

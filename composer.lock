@@ -4,8 +4,67 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "46c17cd2c83a184dbdc0f596a76e4064",
+    "content-hash": "afe3d8c15f087dbcd048fbf12706fdfd",
     "packages": [
+        {
+            "name": "joserick/png-metadata",
+            "version": "0.2.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joserick/PNGMetadata.git",
+                "reference": "c46f0c604818b678981e01a6d3261045145928a3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joserick/PNGMetadata/zipball/c46f0c604818b678981e01a6d3261045145928a3",
+                "reference": "c46f0c604818b678981e01a6d3261045145928a3",
+                "shasum": ""
+            },
+            "require": {
+                "ext-exif": "*",
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^0.12.18",
+                "phpstan/phpstan-nette": "^0.12.6",
+                "symplify/easy-coding-standard": "^7.2",
+                "tracy/tracy": "^2.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PNGMetadata\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jóse Erick Carreón",
+                    "email": "joserick.92@gmail.com",
+                    "homepage": "https://github.com/joserick"
+                },
+                {
+                    "name": "Jan Barášek",
+                    "homepage": "https://baraja.cz"
+                }
+            ],
+            "description": "A PHP library for extract the metadata (XMP, EXIF) within a PNG format image.",
+            "keywords": [
+                "exif",
+                "exiftool",
+                "metadata",
+                "png",
+                "xmp"
+            ],
+            "support": {
+                "issues": "https://github.com/joserick/PNGMetadata/issues",
+                "source": "https://github.com/joserick/PNGMetadata/tree/0.2.7"
+            },
+            "time": "2020-11-02T22:47:54+00:00"
+        },
         {
             "name": "symfony/polyfill-ctype",
             "version": "v1.26.0",

@@ -31,9 +31,10 @@ class FileController
                 'id' => $info[0],
                 'name' => $info[1],
                 'fullName' => $file,
-                'size' => $this->getConvertedSize($info[2]),
-                'extension' => $info[3],
-                'meta' => $this->getFlattenArray($this->model->getEXIF($file, $info[3]))
+                'type' => $info[2],
+                'size' => $this->getConvertedSize($info[3]),
+                'extension' => $info[4],
+                'meta' => $this->getFlattenArray($this->model->getEXIF($file, $info[4]))
             ];
         }
         echo $this->twig->getAll($newData, $this->fileError);

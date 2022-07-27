@@ -35,6 +35,7 @@
             <tr>
                 <th>File</th>
                 <th>Extension</th>
+                <th>Type</th>
                 <th>Size</th>
                 <th>Action</th>
             </tr>
@@ -44,6 +45,7 @@
                 <tr>
                     <td>{{ file.name }}</td>
                     <td>{{ file.extension }}</td>
+                    <td>{{ file.type }}</td>
                     <td>{{ file.size }}</td>
                     {% include('view.html.twig') %}
                     <td>

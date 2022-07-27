@@ -14,6 +14,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "twig/twig": "^3.4"
+        "twig/twig": "^3.4",
+        "joserick/png-metadata": "^0.2.7"
     }
 }
