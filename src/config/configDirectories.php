@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Configs;
+namespace App\Config;
 
 return [
     'files' => '/uploads/',

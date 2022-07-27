@@ -2,15 +2,15 @@
 
 class Router
 {
+
     private $routes;
 
     public function __construct()
     {
-        $routesPath = file_build_path(ROOT, 'configs', 'configRoutes.php');
-        $this->routes = include($routesPath);
+        $this->routes = include file_build_path(ROOT, 'config', 'configRoutes.php');
     }
 
-    private function getURI(): ?string
+    public function getURI(): ?string
     {
         if (!empty($_SERVER['REQUEST_URI'])) {
             return trim($_SERVER['REQUEST_URI'], '/');
@@ -25,13 +25,7 @@ class Router
         foreach ($this->routes as $uriPattern => $path) {
             if (preg_match("~$uriPattern~", $uri)) {
 
-//                echo 'uri: '.$uri.'<br>';
-//                echo 'uriPattern: '.$uriPattern.'<br>';
-//                echo 'path: '.$path.'<br>';
-
-                $internalRoute = preg_replace("~$uriPattern~", $path, $uri); //?????
-//                echo 'internalRoute: '.$internalRoute.'<br>';
-
+                $internalRoute = preg_replace("~$uriPattern~", $path, $uri);
                 $pathParts = explode('/', $internalRoute);
 
                 $controllerName = ucfirst(array_shift($pathParts) . 'Controller');
@@ -52,4 +46,5 @@ class Router
         }
 
     }
+
 }

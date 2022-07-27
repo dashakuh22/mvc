@@ -13,7 +13,7 @@ class TwigController
 
     public function __construct()
     {
-        $this->loader = new FilesystemLoader('templates');
+        $this->loader = new FilesystemLoader('views');
         $this->twig = new Environment($this->loader, [
             'cache' => false
         ]);
