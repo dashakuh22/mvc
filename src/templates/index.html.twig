@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-xs-6">
                     <a href="#upload" class="btn btn-success" data-toggle="modal">
-                        <i class="material-icons">&#xE147;</i><span>Upload New File</span>
+                        <i class="material-icons">&#xe39d;</i><span>Upload New File</span>
                     </a>
                 </div>
             </div>
@@ -34,12 +34,21 @@
             <thead>
             <tr>
                 <th>File</th>
+                <th>Extension</th>
+                <th>Action</th>
             </tr>
             </thead>
             <tbody>
             {% for file in files %}
                 <tr>
-                    <td>{{ file }}</td>
+                    <td>{{ file.name }}</td>
+                    <td>{{ file.extension }}</td>
+                    {% include('view.html.twig') %}
+                    <td>
+                        <a href="#view{{ file.id }}" class="edit" data-toggle="modal">
+                            <i class="material-icons" data-toggle="tooltip" title="Edit">&#xe417;</i>
+                        </a>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>

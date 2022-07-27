@@ -2,22 +2,27 @@
 
 namespace App\Models;
 
-class FileModel {
+class FileModel
+{
 
     private $configs;
     private string $curDir;
     private string $error;
 
     private array $errors = [
-        'Ok' => 'Congratulations! File Uploaded Successfully.',
+        'Ok' => 'This file has uploaded successfully.',
         'Bad extension' => 'This file extension is not supported.',
         'Bad size' => 'This file size is too big.',
         'Bad file' => 'This file can\'t be uploaded.'
     ];
 
     private array $supported_extensions = [
-        'jpg', 'jpeg', 'gif', 'png', 'psd', 'ico',
-        'doc', 'docx', 'txt', 'tex', 'pdf', 'rtf'
+        'picture' => [
+            'jpg', 'jpeg', 'gif', 'png', 'psd', 'ico',
+        ],
+        'text' => [
+            'doc', 'docx', 'txt', 'tex', 'pdf', 'rtf'
+        ]
     ];
 
     /** Use @ to ignore error messages **/
@@ -34,7 +39,7 @@ class FileModel {
     public function getFiles(): array
     {
         $files = scandir($this->curDir . $this->configs['files']);
-        return $files;
+        return array_diff($files, ['.', '..']);
     }
 
     public function getLogs(): array
@@ -43,11 +48,11 @@ class FileModel {
         return $logs;
     }
 
-    public function uploadFile(string $extension, string $size, string $tempName): string
+    public function uploadFile(string $name, string $extension, string $size, string $tempName): string
     {
         if ($this->checkFileExtension($extension)
             && $this->checkFreeSpace($size)
-            && $this->checkFileIsUploaded($tempName, $extension)) {
+            && $this->checkFileIsUploaded($name, $tempName, $extension)) {
             return $this->error = $this->errors['Ok'];
         }
         return $this->error;
@@ -58,22 +63,29 @@ class FileModel {
         $date = date('d-m-Y');
         $time = date("H:i:s");
         $logFileName = $this->curDir . $this->configs['logs'] . 'upload_' . date('dmY') . '.log';
-        $info = "Date: $date\nTime: $time\nFile name: $name\nFile size: $size\nFile error: $error\n*****************\n";
+        $info = "Date: $date\nTime: $time\nFile name: $name\nFile size: $size\nFile info: $error\n*****************\n";
         file_put_contents($logFileName, $info, FILE_APPEND);
     }
 
     public function checkFileExtension(string $fileExtension): bool
     {
-        if (!in_array($fileExtension, $this->supported_extensions)) {
+        if (!$this->checkByType($fileExtension, 'picture') &&
+            !$this->checkByType($fileExtension, 'text')) {
             $this->error = $this->errors['Bad extension'];
             return false;
         }
         return true;
     }
 
+    public function checkByType(string $fileExtension, string $type): bool
+    {
+        return in_array($fileExtension, $this->supported_extensions[$type]);
+    }
+
     public function checkFreeSpace(string $fileSize): bool
     {
         $space = disk_free_space($this->curDir);
+        echo $space;
         if ($fileSize > $space) {
             $this->error = $this->errors['Bad size'];
             return false;
@@ -81,9 +93,11 @@ class FileModel {
         return true;
     }
 
-    public function checkFileIsUploaded(string $tempName, string $extension): bool
+    public function checkFileIsUploaded(string $name, string $tempName, string $extension): bool
     {
-        $destination = $this->curDir . $this->configs['files'] . uniqid('', true) . '.' . $extension;
+        $destination = $this->curDir . $this->configs['files'] .
+            str_replace('.', '', uniqid('', true)) . '.' .
+            $name . '.' . $extension;
         if (!move_uploaded_file($tempName, $destination)) {
             $this->error = $this->errors['Bad file'];
             return false;
@@ -91,4 +105,11 @@ class FileModel {
         return true;
     }
 
+    public function getEXIF(string $fileName, string $fileExtension): array|bool
+    {
+        if ($this->checkByType($fileExtension, 'picture')) {
+            return @exif_read_data($this->curDir . $this->configs['files'] . $fileName);
+        }
+        return false;
+    }
 }

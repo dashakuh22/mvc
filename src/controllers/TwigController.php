@@ -5,7 +5,8 @@ namespace App\Controllers;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
-class TwigController  {
+class TwigController
+{
 
     public Environment $twig;
     public FilesystemLoader $loader;
@@ -23,18 +24,8 @@ class TwigController  {
         echo $this->twig->render('index.html.twig', [
             'files' => $files,
             'result' => $result,
-            'showResult' => "fade",
-            'styleResult' => "display: none"
-        ]);
-    }
-
-    public function isUploaded(array $files, string $result): void
-    {
-        echo $this->twig->render('index.html.twig', [
-            'files' => $files,
-            'result' => $result,
-            'showResult' => "fade in",
-            'styleResult' => "display: block; padding-right: 17px;"
+            'showResult' => $result === '' ? "fade" : "fade in",
+            'styleResult' => $result === '' ? "display: none" : "display: block; padding-right: 17px;"
         ]);
     }
 

@@ -3,51 +3,53 @@
 use App\Controllers\TwigController;
 use App\Models\FileModel;
 
-class FileController {
-
-    public int $fileSize;
-    public string $fileName;
-    public string $fileType;
-    public string $fileExtension;
-
-    public DateTime $fileDate;
-    public DateTime $fileTime;
+class FileController
+{
 
     public TwigController $twig;
     public FileModel $model;
+
+    public string $fileError;
 
     public function __construct()
     {
         $this->model = new FileModel();
         $this->twig = new TwigController();
+        $this->fileError = '';
     }
 
     public function actionIndex(): void
     {
-        $fileError = '';
+        $this->fileError = '';
+        $this->checkUploads();
         $data = $this->model->getFiles();
-        $data = array_diff($data, ['.', '..']);
-        echo $this->twig->getAll($data, $fileError);
+
+        $newData = [];
+        foreach ($data as $file) {
+            $info = explode('.', $file);
+            $newData[] = [
+                'id' => $info[0],
+                'name' => $info[1],
+                'extension' => $info[2],
+                'meta' => $this->getFlattenArray($this->model->getEXIF($file, $info[2]))
+            ];
+        }
+        echo $this->twig->getAll($newData, $this->fileError);
     }
 
-    public function actionUpload(): void
+    public function checkUploads(): void
     {
-        $fileError = '';
         if (isset($_FILES['file'])) {
             $data = $this->getData();
-            $fileError = $this->model->uploadFile($data['extension'], $data['size'], $data['tmp_name']);
-            $this->model->updateLog($data['name'], $data['convertedSize'], $fileError);
+            $this->fileError = $this->model->uploadFile($data['name'], $data['extension'], $data['size'], $data['tmp_name']);
+            $this->model->updateLog($data['name'], $data['convertedSize'], $this->fileError);
         }
-        $data = $this->model->getFiles();
-        $data = array_diff($data, ['.', '..']);
-        echo $this->twig->isUploaded($data, $fileError);
-        //header('Location: /');
     }
 
     public function getData(): array
     {
         return [
-            'name' => $_FILES['file']['name'],
+            'name' => $this->getName($_FILES['file']['name']),
             'size' => $_FILES['file']['size'],
             'type' => $_FILES['file']['type'],
             'error' => $_FILES['file']['error'],
@@ -55,6 +57,12 @@ class FileController {
             'extension' => $this->getExtension($_FILES['file']['name']),
             'convertedSize' => $this->getConvertedSize($_FILES['file']['size'])
         ];
+    }
+
+    public function getName(string $fileName): string
+    {
+        $file = explode('.', $fileName);
+        return strtolower($file[0]);
     }
 
     public function getConvertedSize(int $fileSize): string
@@ -65,10 +73,14 @@ class FileController {
             $prefix++;
         }
         switch ($prefix) {
-            case 0: return "$fileSize b";
-            case 1: return "$fileSize kb";
-            case 2: return "$fileSize mb";
-            case 3: return "$fileSize gb";
+            case 0:
+                return "$fileSize b";
+            case 1:
+                return "$fileSize kb";
+            case 2:
+                return "$fileSize mb";
+            case 3:
+                return "$fileSize gb";
         }
         return $fileSize;
     }
@@ -77,6 +89,20 @@ class FileController {
     {
         $file = explode('.', $fileName);
         return strtolower(end($file));
+    }
+
+    public function getFlattenArray(array|bool $items, array $flattened = []): array
+    {
+        if (is_array($items)) {
+            foreach ($items as $item => $value) {
+                if (is_array($value)) {
+                    $flattened = $this->getFlattenArray($value, $flattened);
+                    continue;
+                }
+                $flattened[$item] = $value;
+            }
+        }
+        return $flattened;
     }
 
 }
