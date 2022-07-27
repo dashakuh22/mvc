@@ -58,7 +58,7 @@ table.table tr th, table.table tr td {
 }
 
 table.table tr th:first-child {
-    width: 25%;
+    width: 35%;
 }
 
 table.table tr th:last-child {
@@ -116,10 +116,6 @@ table.table .avatar {
 }
 
 /* Modal styles */
-.modal .modal-dialog {
-    max-width: 400px;
-}
-
 .modal .modal-header, .modal .modal-body, .modal .modal-footer {
     padding: 20px 30px;
 }
@@ -155,4 +151,15 @@ table.table .avatar {
 
 .view {
     width: inherit;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+label {
+    font-size: larger;
 }

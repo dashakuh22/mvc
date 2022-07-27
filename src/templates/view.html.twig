@@ -12,6 +12,8 @@
                         <input class="form-control" value="{{ file.name }}" disabled>
                         <label>File Type</label>
                         <input class="form-control" value="{{ file.extension }}" disabled>
+                        <label>File Size</label>
+                        <input class="form-control" value="{{ file.size }}" disabled>
                         {% if file.meta|length > 0 %}
                             <label>Meta Info</label>
                             <ul>
@@ -19,6 +21,10 @@
                                     <li>{{ header }}: {{ info }}</li>
                                 {% endfor %}
                             </ul>
+                            <label>Image</label>
+                            <a href="../uploads/{{ file.fullName }}" target="_blank">
+                                <img src="../uploads/{{ file.fullName }}">
+                            </a>
                         {% endif %}
                     </div>
                 </div>

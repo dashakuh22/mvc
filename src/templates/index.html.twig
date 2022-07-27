@@ -35,6 +35,7 @@
             <tr>
                 <th>File</th>
                 <th>Extension</th>
+                <th>Size</th>
                 <th>Action</th>
             </tr>
             </thead>
@@ -43,6 +44,7 @@
                 <tr>
                     <td>{{ file.name }}</td>
                     <td>{{ file.extension }}</td>
+                    <td>{{ file.size }}</td>
                     {% include('view.html.twig') %}
                     <td>
                         <a href="#view{{ file.id }}" class="edit" data-toggle="modal">

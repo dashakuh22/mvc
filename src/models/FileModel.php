@@ -10,7 +10,7 @@ class FileModel
     private string $error;
 
     private array $errors = [
-        'Ok' => 'This file has uploaded successfully.',
+        'Ok' => 'This file has been uploaded successfully.',
         'Bad extension' => 'This file extension is not supported.',
         'Bad size' => 'This file size is too big.',
         'Bad file' => 'This file can\'t be uploaded.'
@@ -25,7 +25,7 @@ class FileModel
         ]
     ];
 
-    /** Use @ to ignore error messages **/
+    /** Use @ to suppress error messages **/
     public function __construct()
     {
         $this->configs = require_once file_build_path(ROOT, 'configs', 'configDirectories.php');
@@ -39,7 +39,9 @@ class FileModel
     public function getFiles(): array
     {
         $files = scandir($this->curDir . $this->configs['files']);
-        return array_diff($files, ['.', '..']);
+        $files = array_diff($files, ['.', '..']);
+
+        return $files;
     }
 
     public function getLogs(): array
@@ -52,7 +54,7 @@ class FileModel
     {
         if ($this->checkFileExtension($extension)
             && $this->checkFreeSpace($size)
-            && $this->checkFileIsUploaded($name, $tempName, $extension)) {
+            && $this->checkFileIsUploaded($name, $tempName, $size, $extension)) {
             return $this->error = $this->errors['Ok'];
         }
         return $this->error;
@@ -85,7 +87,6 @@ class FileModel
     public function checkFreeSpace(string $fileSize): bool
     {
         $space = disk_free_space($this->curDir);
-        echo $space;
         if ($fileSize > $space) {
             $this->error = $this->errors['Bad size'];
             return false;
@@ -93,11 +94,10 @@ class FileModel
         return true;
     }
 
-    public function checkFileIsUploaded(string $name, string $tempName, string $extension): bool
+    public function checkFileIsUploaded(string $name, string $tempName, int $size, string $extension): bool
     {
-        $destination = $this->curDir . $this->configs['files'] .
-            str_replace('.', '', uniqid('', true)) . '.' .
-            $name . '.' . $extension;
+        $id = str_replace('.', '', uniqid('', true));
+        $destination = $this->curDir . $this->configs['files'] . $id . '.' . $name . '.' . $size . '.' . $extension;
         if (!move_uploaded_file($tempName, $destination)) {
             $this->error = $this->errors['Bad file'];
             return false;
@@ -112,4 +112,5 @@ class FileModel
         }
         return false;
     }
+
 }
