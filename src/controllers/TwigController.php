@@ -24,8 +24,7 @@ class TwigController
         echo $this->twig->render('index.html.twig', [
             'files' => $files,
             'result' => $result,
-            'showResult' => $result === '' ? "fade" : "fade in",
-            'styleResult' => $result === '' ? "display: none" : "display: block; padding-right: 17px;"
+            'showResult' => $result === '' ? "fade" : "fade in"
         ]);
     }
 

@@ -163,3 +163,12 @@ img {
 label {
     font-size: larger;
 }
+
+.error.fade {
+    display: none;
+}
+
+.error.fade.in {
+    display: block;
+    padding-right: 17px;
+}
