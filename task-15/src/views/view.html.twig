@@ -8,24 +8,24 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>File Name</label>
-                        <input class="form-control" value="{{ file.name }}" disabled>
-                        <label>File Extension</label>
-                        <input class="form-control" value="{{ file.extension }}" disabled>
-                        <label>File Type</label>
-                        <input class="form-control" value="{{ file.type }}" disabled>
-                        <label>File Size</label>
-                        <input class="form-control" value="{{ file.size }}" disabled>
+                        <label for="file_name">File Name</label>
+                        <input id="file_name" class="form-control" value="{{ file.name }}" disabled>
+                        <label for="file_extension">File Extension</label>
+                        <input id="file_extension" class="form-control" value="{{ file.extension }}" disabled>
+                        <label for="file_type">File Type</label>
+                        <input id="file_type" class="form-control" value="{{ file.type }}" disabled>
+                        <label for="file_size">File Size</label>
+                        <input id="file_size" class="form-control" value="{{ file.size }}" disabled>
                         {% if file.meta|length > 0 %}
-                            <label>Meta Info</label>
-                            <ul>
+                            <label for="file_meta">Meta Info</label>
+                            <ul id="file_meta">
                                 {% for header, info in file.meta %}
                                     <li>{{ header }}: {{ info }}</li>
                                 {% endfor %}
                             </ul>
-                            <label>Image</label>
+                            <label for="image">Image</label>
                             <a href="uploads/{{ file.fullName }}" target="_blank">
-                                <img src="uploads/{{ file.fullName }}">
+                                <img id="image" alt="User's image" src="uploads/{{ file.fullName }}">
                             </a>
                         {% endif %}
                     </div>

@@ -39,13 +39,8 @@ class FileModel
     public function getFiles(): array
     {
         $files = scandir($this->curDir . $this->configs['files']);
-        return array_diff($files, ['.', '..']);
-    }
 
-    public function getLogs(): array
-    {
-        $logs = scandir($this->curDir . $this->configs['logs']);
-        return $logs;
+        return array_diff($files, ['.', '..']);
     }
 
     public function uploadFile(string $name, string $extension, string $size, string $tempName): string
@@ -63,7 +58,13 @@ class FileModel
         $date = date('d-m-Y');
         $time = date("H:i:s");
         $logFileName = $this->curDir . $this->configs['logs'] . 'upload_' . date('dmY') . '.log';
-        $info = "Date: $date\nTime: $time\nFile name: $name\nFile size: $size\nFile info: $error\n*****************\n";
+        $info = "
+        Date: $date\n
+        Time: $time\n
+        File name: $name\n
+        File size: $size\n
+        File info: $error\n
+        *****************\n";
         file_put_contents($logFileName, $info, FILE_APPEND);
     }
 
@@ -106,6 +107,7 @@ class FileModel
     {
         $id = str_replace('.', '', uniqid('', true));
         $type = $this->checkByType($extension, 'text') ? 'text' : 'image';
+
         return $this->curDir . $this->configs['files'] . $id . '.' . $name . '.' . $type . '.' . $size . '.' . $extension;
     }
 

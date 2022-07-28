@@ -134,10 +134,10 @@ table.table .avatar {
 }
 
 .modal .form-control {
-    margin: 5px 0px;
+    margin: 5px 0;
     border-radius: 2px;
     box-shadow: none;
-    border-color: #dddddd;
+    border-color: #ddd;
 }
 
 .modal textarea.form-control {

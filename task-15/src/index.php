@@ -2,7 +2,7 @@
 
 function file_build_path(...$segments)
 {
-    return join(DIRECTORY_SEPARATOR, $segments);
+    return implode(DIRECTORY_SEPARATOR, $segments);
 }
 
 const ROOT = __DIR__;

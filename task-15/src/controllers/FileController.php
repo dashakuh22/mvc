@@ -65,6 +65,7 @@ class FileController
     public function getName(string $fileName): string
     {
         $file = explode('.', $fileName);
+
         return strtolower($file[0]);
     }
 
@@ -75,22 +76,19 @@ class FileController
             $fileSize = round($fileSize / 1024, 2);
             $prefix++;
         }
-        switch ($prefix) {
-            case 0:
-                return "$fileSize b";
-            case 1:
-                return "$fileSize kb";
-            case 2:
-                return "$fileSize mb";
-            case 3:
-                return "$fileSize gb";
-        }
-        return $fileSize;
+        return match ($prefix) {
+            0 => "$fileSize b",
+            1 => "$fileSize kb",
+            2 => "$fileSize mb",
+            3 => "$fileSize gb",
+            default => $fileSize,
+        };
     }
 
     public function getExtension(string $fileName): string
     {
         $file = explode('.', $fileName);
+
         return strtolower(end($file));
     }
 
