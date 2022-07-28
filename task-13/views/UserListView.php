@@ -1,5 +1,6 @@
 <!-- Header HTML -->
-<?php require_once file_build_path(ROOT, 'views', 'layouts', 'head.php'); ?>
+<?php
+require_once file_build_path(ROOT, 'views', 'layouts', 'head.php');?>
 <body>
 <div class="container">
     <div class="table-responsive">

@@ -1,6 +1,7 @@
 <?php
 
-class User {
+class User
+{
 
     public $id;
     public $name;
@@ -15,7 +16,7 @@ class User {
     public $action;
     public $action_values = ['add', 'edit'];
 
-    public function __construct(string $name= '', string $gender = '',
+    public function __construct(string $name = '', string $gender = '',
                                 string $status = '', string $email = '',
                                 string $id = '')
     {

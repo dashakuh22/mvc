@@ -1,6 +1,7 @@
 <?php
 
-class DB {
+class DB
+{
 
     public static string $dbName;
 
@@ -11,8 +12,8 @@ class DB {
             $paramsPath = file_build_path(ROOT, 'config', 'db_params.php');
             $params = include $paramsPath;
 
-//            self::$dbName = $params['dbTableName'];
-  //          $dsn = "mysql:host={$params['host']};dbname={$params['dbName']}";
+            self::$dbName = $params['dbTableName'];
+            $dsn = "mysql:host={$params['host']};dbname={$params['dbName']}";
 
             return new PDO($dsn, $params['userName'], $params['password']);
 

@@ -2,7 +2,8 @@
 
 include_once file_build_path(ROOT, 'models', 'UserModel.php');
 
-class UserController {
+class UserController
+{
 
     public function actionIndex(): void
     {
