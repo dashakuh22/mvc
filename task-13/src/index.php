@@ -2,7 +2,8 @@
 
 const ROOT = __DIR__;
 
-function file_build_path(...$segments) {
+function file_build_path(...$segments)
+{
     return join(DIRECTORY_SEPARATOR, $segments);
 }
 
