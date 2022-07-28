@@ -1,7 +1,5 @@
 <?php
 
-namespace App\Models;
-
 use PNGMetadata\PNGMetadata;
 
 class FileModel

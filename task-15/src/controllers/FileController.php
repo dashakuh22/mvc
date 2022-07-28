@@ -1,7 +1,7 @@
 <?php
 
-use App\Controllers\TwigController;
-use App\Models\FileModel;
+include_once file_build_path(ROOT, 'models', 'FileModel.php');
+include_once file_build_path(ROOT, 'controllers', 'TwigController.php');
 
 class FileController
 {
