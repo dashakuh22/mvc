@@ -28,7 +28,7 @@ class Router
                 $internalRoute = preg_replace("~$uriPattern~", $path, $uri);
 
                 $pathParts = explode('/', $internalRoute);
-                print_r($pathParts);
+
                 $controllerName = ucfirst(array_shift($pathParts) . 'Controller');
                 $actionName = 'action' . ucfirst(array_shift($pathParts));
                 $params = $pathParts;

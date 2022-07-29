@@ -2,8 +2,9 @@
 
 const ROOT = __DIR__;
 
-function file_build_path(...$segments) {
-    return join(DIRECTORY_SEPARATOR, $segments);
+function file_build_path(...$segments): string
+{
+    return implode(DIRECTORY_SEPARATOR, $segments);
 }
 
 require_once file_build_path(ROOT, '..', 'vendor', 'autoload.php');
