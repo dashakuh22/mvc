@@ -36,8 +36,11 @@ class UserController
             }
             $userName = $isAuthenticated ? $_POST['name'] : '';
             $this->twig->getResult($isAuthenticated, $userName);
+            exit();
+        } else {
+            header('Location: /');
+            exit();
         }
-        exit();
     }
 
     public function checkAuthentication(array $userInfo, array $keys, bool &$isAuthenticated): void
