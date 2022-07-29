@@ -24,22 +24,31 @@ class UserController
 
     public function actionLogin(): void
     {
+        session_start();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->users = $this->model->getUsers();
-            $isAuthenticated = false;
-            foreach ($this->users as $email => $info) {
-                if ($_POST['email'] === $email) {
-                    $isAuthenticated = true;
-                    $keys = array_keys($info);
-                    $this->checkAuthentication($info, $keys, $isAuthenticated);
+            if (!isset($_SESSION['email'])) {
+
+                $_SESSION['email'] = $_POST['email'];
+
+                $this->users = $this->model->getUsers();
+                $isAuthenticated = false;
+
+                foreach ($this->users as $email => $info) {
+                    if ($_POST['email'] === $email) {
+                        $isAuthenticated = true;
+                        $keys = array_keys($info);
+                        $this->checkAuthentication($info, $keys, $isAuthenticated);
+                    }
                 }
+
+                $userName = $isAuthenticated ? $_POST['name'] : '';
+                $this->twig->getResult($isAuthenticated, $userName);
+                exit();
+
+            } else {
+                unset($_SESSION['email']);
+                header('Location: /');
             }
-            $userName = $isAuthenticated ? $_POST['name'] : '';
-            $this->twig->getResult($isAuthenticated, $userName);
-            exit();
-        } else {
-            header('Location: /');
-            exit();
         }
     }
 
