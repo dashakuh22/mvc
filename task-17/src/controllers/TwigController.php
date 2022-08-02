@@ -23,6 +23,7 @@ class TwigController
     public function getIndex(): void
     {
         $rand = $this->revalidate_check_val();
+
         echo $this->twig->render('index.html.twig', [
             'check_value' => $rand,
             'password_info' => UserController::PASSWORD_INFO

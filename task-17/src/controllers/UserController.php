@@ -49,6 +49,7 @@ class UserController
                 $_SESSION['last_name'] = $_POST['last_name'];
 
                 $isRegistered = $this->registration();
+
                 $this->twig->getResult($isRegistered, $this->error,
                     $_SESSION['email'], $_SESSION['first_name'], $_SESSION['last_name']);
                 exit();
@@ -58,7 +59,6 @@ class UserController
                 header('Location: /');
             }
 
-            $_POST["isClicked"] = 'false';
         }
     }
 
