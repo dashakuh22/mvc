@@ -34,12 +34,11 @@ class UserController
     public function actionIndex(): void
     {
         $this->twig->getIndex();
-        exit();
     }
 
     public function actionRegister(): void
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             if (isset($_SESSION['check_value']) && $_POST['check_value'] == $_SESSION['check_value']) {
 
@@ -49,13 +48,10 @@ class UserController
                 $_SESSION['last_name'] = $_POST['last_name'];
 
                 $isRegistered = $this->registration();
-
                 $this->twig->getResult($isRegistered, $this->error,
                     $_SESSION['email'], $_SESSION['first_name'], $_SESSION['last_name']);
-                exit();
 
             } else {
-                session_destroy();
                 header('Location: /');
             }
 
@@ -88,7 +84,7 @@ class UserController
             $_SESSION['first_name'] = '';
             $_SESSION['last_name'] = '';
             $this->error[] = $this->errors['success'];
-            session_destroy();
+
             return true;
         }
 

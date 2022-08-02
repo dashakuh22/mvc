@@ -2,10 +2,6 @@ $('#close').click(function (e) {
     $('#notification').hide();
 });
 
-$('#submit').click(function (e) {
-    $('#isClicked').val("true");
-});
-
 const accordion = document.getElementsByClassName('container');
 
 for (let i = 0; i < accordion.length; i++) {
