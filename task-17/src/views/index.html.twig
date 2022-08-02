@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/notification_styles.css">
     <link rel="icon" href="data:,">
 </head>
 <body>
@@ -57,7 +58,7 @@
             <label for="confirm_password">Confirm Password</label>
             <input id="confirm_password" type="password" class="form-control" name="confirm_password" required>
         </div>
-        <input id="check_value" style="display: none" name="check_value" value="{{ check_value }}">
+        <input id="check_value" name="check_value" value="{{ check_value }}" hidden>
         <div class="form-group">
             <button id="submit" type="submit" class="btn btn-primary btn-lg btn-block">Sign up</button>
         </div>
@@ -71,6 +72,7 @@
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script src="/assets/js/main.js"></script>
+<script src="/assets/js/modal_close.js"></script>
+<script src="/assets/js/tooltip.js"></script>
 </body>
 </html>

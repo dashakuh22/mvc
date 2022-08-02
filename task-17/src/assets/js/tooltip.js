@@ -1,7 +1,3 @@
-$('#close').click(function (e) {
-    $('#notification').hide();
-});
-
 const accordion = document.getElementsByClassName('container');
 
 for (let i = 0; i < accordion.length; i++) {
@@ -13,17 +9,3 @@ for (let i = 0; i < accordion.length; i++) {
 $(function () {
     $('[data-bs-toggle="tooltip"]').tooltip()
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
