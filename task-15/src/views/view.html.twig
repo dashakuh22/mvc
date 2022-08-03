@@ -1,0 +1,39 @@
+<div id="view{{ file.id }}" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content view">
+            <form action="/" method="post" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h4 class="modal-title">Information</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="file_name">File Name</label>
+                        <input id="file_name" class="form-control" value="{{ file.name }}" disabled>
+                        <label for="file_extension">File Extension</label>
+                        <input id="file_extension" class="form-control" value="{{ file.extension }}" disabled>
+                        <label for="file_type">File Type</label>
+                        <input id="file_type" class="form-control" value="{{ file.type }}" disabled>
+                        <label for="file_size">File Size</label>
+                        <input id="file_size" class="form-control" value="{{ file.size }}" disabled>
+                        {% if file.meta|length > 0 %}
+                            <label for="file_meta">Meta Info</label>
+                            <ul id="file_meta">
+                                {% for header, info in file.meta %}
+                                    <li>{{ header }}: {{ info }}</li>
+                                {% endfor %}
+                            </ul>
+                            <label for="image">Image</label>
+                            <a href="uploads/{{ file.fullName }}" target="_blank">
+                                <img id="image" alt="User's image" src="uploads/{{ file.fullName }}">
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
