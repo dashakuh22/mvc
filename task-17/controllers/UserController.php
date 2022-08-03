@@ -15,6 +15,7 @@ class UserController
         'bad first name' => 'Check your first name for correctness.',
         'bad last name' => 'Check your last name for correctness.',
         'bad password' => 'Check your password for correctness.',
+        'bad connection' => 'Check yor database params before using this app.',
         'wrong email' => 'The email confirmation does\'t match.',
         'wrong password' => 'The password confirmation does\'t match.',
     ];
@@ -37,13 +38,21 @@ class UserController
         exit();
     }
 
+    public function actionFail(): void
+    {
+        $this->error[] = $this->errors['bad connection'];
+        $this->twig->getFail($this->error);
+        exit();
+    }
+
     public function actionRegister(): void
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if (isset($_SESSION['check_value']) && $_POST['check_value'] == $_SESSION['check_value']) {
 
-                $this->makeDataSecure();
+                $_POST = $this->makeDataSecure($_POST);
+
                 $_SESSION['email'] = $_POST['email'];
                 $_SESSION['first_name'] = $_POST['first_name'];
                 $_SESSION['last_name'] = $_POST['last_name'];
@@ -60,11 +69,13 @@ class UserController
         }
     }
 
-    public function makeDataSecure(): void
+    public function makeDataSecure(array $data): array
     {
-        foreach ($_POST as $field => $value) {
-            $_POST[$field] = $this->getSecure($value);
+        foreach ($data as $field => $value) {
+            $data[$field] = $this->getSecure($value);
         }
+
+        return $data;
     }
 
     public function getSecure(string $data): string

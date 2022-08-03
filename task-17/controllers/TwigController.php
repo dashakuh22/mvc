@@ -30,6 +30,17 @@ class TwigController
         ]);
     }
 
+    public function getFail(array $error): void
+    {
+        echo $this->twig->render('index.html.twig', [
+            'showResult' => 'fade in',
+            'notification' => $error,
+            'icon' => 'close',
+            'result' => 'error',
+            'password_info' => UserController::PASSWORD_INFO,
+        ]);
+    }
+
     public function getResult(bool $isRegistered, array $errors, string $email, string $firstName, string $lastName): void
     {
         $rand = $this->revalidate_check_val();
