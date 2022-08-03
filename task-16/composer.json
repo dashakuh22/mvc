@@ -1,11 +1,6 @@
 {
-    "name": "dasha/mvc",
+    "name": "dasha/task-16",
     "type": "project",
-    "autoload": {
-        "psr-4": {
-            "App\\": "src/"
-        }
-    },
     "authors": [
         {
             "name": "dashakuh22",
