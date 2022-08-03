@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 function file_build_path(...$segments): string
 {
     return implode(DIRECTORY_SEPARATOR, $segments);

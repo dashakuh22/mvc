@@ -24,43 +24,35 @@ class UserController
 
     public function actionLogin(): void
     {
-        session_start();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!isset($_SESSION['email'])) {
 
-                $_SESSION['email'] = $_POST['email'];
+            if (isset($_SESSION['check_value']) && $_SESSION['check_value'] == $_POST['check_value']) {
 
                 $this->users = $this->model->getUsers();
                 $isAuthenticated = false;
+                $userName = '';
 
                 foreach ($this->users as $email => $info) {
                     if ($_POST['email'] === $email) {
                         $isAuthenticated = true;
-                        $keys = array_keys($info);
-                        $this->checkAuthentication($info, $keys, $isAuthenticated);
+                        $userName = $this->getIfAuthenticated($info, $isAuthenticated);
                     }
                 }
 
-                $userName = $isAuthenticated ? $_POST['name'] : '';
                 $this->twig->getResult($isAuthenticated, $userName);
                 exit();
 
             } else {
-                unset($_SESSION['email']);
                 header('Location: /');
             }
+
         }
     }
 
-    public function checkAuthentication(array $userInfo, array $keys, bool &$isAuthenticated): void
+    public function getIfAuthenticated(array $userInfo, bool &$isAuthenticated): string
     {
-        for ($i = 0; $i < count($keys); $i++) {
-            if ($keys[$i] === 'password') {
-                $isAuthenticated &= password_verify($_POST[$keys[$i]], $userInfo[$keys[$i]]);
-            } else {
-                $isAuthenticated &= $_POST[$keys[$i]] === $userInfo[$keys[$i]];
-            }
-        }
+        $isAuthenticated = password_verify($_POST['password'], $userInfo['password']);
+        return $isAuthenticated ? $userInfo['name'] : '';
     }
 
 }
