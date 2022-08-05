@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CRUD Data Table</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/uploading/styles.css">
+    <link rel="icon" href="data:,">
+</head>
+<div class="container">
+    <div class="table-wrapper">
+        <div class="table-title">
+            <div class="row">
+                <div class="col-xs-6">
+                    <h2>Manage <b>Files</b></h2>
+                </div>
+                <div class="col-xs-6">
+                    <a href="#upload" class="btn btn-success" data-toggle="modal">
+                        <i class="material-icons">&#xe39d;</i><span>Upload New File</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div>
+            {{ include('upload.html.twig') }}
+            {{ include('error.html.twig') }}
+        </div>
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>File</th>
+                <th>Extension</th>
+                <th>Type</th>
+                <th>Size</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for file in files %}
+                <tr>
+                    <td>{{ file.name }}</td>
+                    <td>{{ file.extension }}</td>
+                    <td>{{ file.type }}</td>
+                    <td>{{ file.size }}</td>
+                    {% include('view.html.twig') %}
+                    <td>
+                        <a href="#view{{ file.id }}" class="edit" data-toggle="modal">
+                            <i class="material-icons" data-toggle="tooltip" title="Edit">&#xe417;</i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>
