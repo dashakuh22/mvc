@@ -51,13 +51,13 @@ class UserController
 
             if (isset($_SESSION['check_value']) && $_POST['check_value'] == $_SESSION['check_value']) {
 
-                $_POST = $this->makeDataSecure($_POST);
+                $data = $this->makeDataSecure($_POST);
 
-                $_SESSION['email'] = $_POST['email'];
-                $_SESSION['first_name'] = $_POST['first_name'];
-                $_SESSION['last_name'] = $_POST['last_name'];
+                $_SESSION['email'] = $data['email'];
+                $_SESSION['first_name'] = $data['first_name'];
+                $_SESSION['last_name'] = $data['last_name'];
 
-                $isRegistered = $this->registration();
+                $isRegistered = $this->registration($data);
                 $this->twig->getResult($isRegistered, $this->error,
                     $_SESSION['email'], $_SESSION['first_name'], $_SESSION['last_name']);
                 exit();
@@ -83,16 +83,16 @@ class UserController
         return htmlspecialchars(stripslashes(trim($data)));
     }
 
-    public function registration(): bool
+    public function registration(array $data): bool
     {
 
-        $this->checkEmail($_POST['email'], $_POST['confirm_email']);
-        $this->checkFirstName($_POST['first_name']);
-        $this->checkLastName($_POST['last_name']);
-        $this->checkPassword($_POST['password'], $_POST['confirm_password']);
+        $this->checkEmail($data['email'], $data['confirm_email']);
+        $this->checkFirstName($data['first_name']);
+        $this->checkLastName($data['last_name']);
+        $this->checkPassword($data['password'], $data['confirm_password']);
 
         if (empty($this->error)) {
-            UserModel::addUser($_POST['email'], $_POST['first_name'], $_POST['last_name'], $_POST['password']);
+            UserModel::addUser($data['email'], $data['first_name'], $data['last_name'], $data['password']);
             $_SESSION['email'] = '';
             $_SESSION['first_name'] = '';
             $_SESSION['last_name'] = '';
