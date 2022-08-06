@@ -2,13 +2,10 @@
 
 namespace App\components;
 
-use App\Controllers\User\UserController;
-use App\controllers\file\FileController;
-
 class Router
 {
 
-    private $routes;
+    private mixed $routes;
 
     public function __construct()
     {
@@ -33,18 +30,18 @@ class Router
                 $internalRoute = preg_replace("~$uriPattern~", $path, $uri);
                 $pathParts = explode('/', $internalRoute);
 
-                $controllerName = array_shift($pathParts);
-                $controllerFileName = ucfirst($controllerName . 'Controller');
+                $controller = array_shift($pathParts);
+                $controllerName = ucfirst(array_shift($pathParts) . 'Controller');
                 $actionName = 'action' . ucfirst(array_shift($pathParts));
                 $params = $pathParts;
 
-                $controllerFile = file_build_path(ROOT, 'controllers', $controllerName, $controllerFileName . '.php');
-
+                $controllerFile = file_build_path(ROOT, 'controllers', $controller, $controllerName . '.php');
+//                echo $controllerFile;
                 if (file_exists($controllerFile)) {
                     require_once $controllerFile;
                 }
 
-                $controllerObject = new $controllerFileName;
+                $controllerObject = new $controllerName;
                 $result = call_user_func_array(array($controllerObject, $actionName), $params);
                 if (!is_null($result)) {
                     break;

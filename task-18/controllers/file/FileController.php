@@ -1,7 +1,5 @@
 <?php
 
-namespace App\controllers\file;
-
 use App\models\FileModel;
 use App\controllers\file\TwigController;
 

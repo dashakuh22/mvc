@@ -1,11 +1,9 @@
 <?php
 
-namespace App\controllers\user;
-
 use App\models\UserModel;
 use App\controllers\user\TwigController;
 
-class UserController
+class RegistrationController
 {
 
     public array $error;
@@ -36,40 +34,15 @@ class UserController
 
     public function actionIndex(): void
     {
-        $this->twig->getAuthentication();
+        $this->twig->getRegistration();
         exit();
     }
 
     public function actionFail(): void
     {
         $this->error[] = $this->errors['bad connection'];
-        $this->twig->getFail($this->error);
+        $this->twig->getNotification(false, $this->error);
         exit();
-    }
-
-    public function actionLogin(): void
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-            if (isset($_SESSION['check_value']) && $_SESSION['check_value'] == $_POST['check_value']) {
-
-                $_POST = $this->makeDataSecure($_POST);
-
-                $_SESSION['email'] = $_POST['email'];
-                $_SESSION['password'] = $_POST['password'];
-
-                $user = UserModel::getUser($_POST['email'], $_POST['password']);
-                $isAuthenticated = isset($user['id']);
-                $userName = $user['first_name'] ?? '';
-
-                $this->twig->getAuthenticationResult($isAuthenticated, $userName);
-                exit();
-
-            } else {
-                header('Location: /');
-            }
-
-        }
     }
 
     public function actionRegister(): void
@@ -84,9 +57,13 @@ class UserController
                 $_SESSION['first_name'] = $_POST['first_name'];
                 $_SESSION['last_name'] = $_POST['last_name'];
 
-                $isRegistered = $this->registration();
-                $this->twig->getRegistrationResult($isRegistered, $this->error,
-                    $_SESSION['email'], $_SESSION['first_name'], $_SESSION['last_name']);
+                if ($this->registration()) {
+                    $this->twig->getNotification(true, $this->error);
+                } else {
+                    $this->twig->getRegistrationResult(false, $this->error,
+                        $_SESSION['email'], $_SESSION['first_name'], $_SESSION['last_name']);
+                }
+
                 exit();
 
             } else {

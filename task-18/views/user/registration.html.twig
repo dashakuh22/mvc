@@ -11,8 +11,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/css/registration/styles.css">
-    <link rel="stylesheet" href="/assets/css/registration/notificationStyles.css">
+    <link rel="stylesheet" href="/assets/css/userForm/styles.css">
+    <link rel="stylesheet" href="/assets/css/userForm/notificationStyles.css">
     <link rel="icon" href="data:,">
 </head>
 <body>
@@ -21,7 +21,7 @@
         <div class="avatar">
             <img src="/assets/img/avatar.png" alt="Avatar">
         </div>
-        {{ include('notification.html.twig') }}
+        {{ include('modalNotification.html.twig') }}
         <h2 class="text-center">Registration</h2>
         <div class="form-group">
             <label for="email">Email</label>
@@ -61,6 +61,11 @@
         <input id="check_value" name="check_value" value="{{ check_value }}" hidden>
         <div class="form-group">
             <button id="submit" type="submit" class="btn btn-primary btn-lg btn-block">Sign up</button>
+        </div>
+        <div>
+            <p class="text-muted text-center mt-3 mb-0">
+                Have you already had an account? <a href="/login-form" class="text-primary ml-1">Sign In</a>
+            </p>
         </div>
     </form>
 </div>

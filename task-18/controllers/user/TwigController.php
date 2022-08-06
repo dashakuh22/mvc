@@ -2,9 +2,9 @@
 
 namespace App\controllers\user;
 
+use RegistrationController;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
-use App\controllers\UserController;
 
 class TwigController
 {
@@ -35,19 +35,21 @@ class TwigController
 
         echo $this->twig->render('registration.html.twig', [
             'check_value' => $rand,
-            'password_info' => UserController::PASSWORD_INFO
+
+            'password_info' => RegistrationController::PASSWORD_INFO
         ]);
     }
 
-    public function getAuthenticationResult(bool $isAuthenticated, string $user): void
+    public function getNotification(bool $isSuccess, array $errors): void
     {
         $checkValue = $this->getCheckValue();
 
-        echo $this->twig->render('greeting.html.twig', [
+        echo $this->twig->render('notification.html.twig', [
             'check_value' => $checkValue,
-            'icon' => $isAuthenticated ? 'done' : 'close',
-            'result' => $isAuthenticated ? 'success' : 'error',
-            'notification' => $isAuthenticated ? "Welcome back, $user" : 'Login is incorrect.'
+
+            'notification' => $errors,
+            'icon' => $isSuccess ? 'done' : 'close',
+            'result' => $isSuccess ? 'success' : 'error',
         ]);
     }
 
@@ -57,7 +59,6 @@ class TwigController
         $rand = $this->getCheckValue();
 
         echo $this->twig->render('registration.html.twig', [
-
             'check_value' => $rand,
 
             'email' => $email,
@@ -68,18 +69,7 @@ class TwigController
             'notification' => $errors,
             'icon' => $isRegistered ? 'done' : 'close',
             'result' => $isRegistered ? 'success' : 'error',
-            'password_info' => UserController::PASSWORD_INFO,
-        ]);
-    }
-
-    public function getFail(array $error): void
-    {
-        echo $this->twig->render('registration.html.twig', [
-            'showResult' => 'fade in',
-            'notification' => $error,
-            'icon' => 'close',
-            'result' => 'error',
-            'password_info' => UserController::PASSWORD_INFO,
+            'password_info' => RegistrationController::PASSWORD_INFO,
         ]);
     }
 

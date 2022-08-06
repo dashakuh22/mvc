@@ -9,19 +9,24 @@ class UserModel
 
     const HASH_ALGO = PASSWORD_BCRYPT;
 
-    public static function getUser(string $email, string $password): bool|int
+    public static function getUserAttribute(string $attribute, string $email, string $password): string
     {
         $db = DB::getConnection();
 
-        $query = 'SELECT * FROM ' . DB::$dbName . ' WHERE email=:email, password:password';
+        $query = 'SELECT ' . $attribute . ' , password FROM ' . DB::$dbName . ' WHERE email=:email';
 
         $result = $db->prepare($query);
         $result->bindParam(':email', $email);
-        $passwordHash = self::getPasswordHash($password);
-        $result->bindParam(':password', $passwordHash);
         $result->execute();
+        $userInfo = $result->fetch(\PDO::FETCH_ASSOC);
 
-        return $result->fetch();
+        if ($userInfo) {
+            if (password_verify($password, $userInfo['password'])) {
+                return $userInfo[$attribute];
+            }
+        }
+
+        return '';
     }
 
     public static function getUserByEmail(string $email): bool
