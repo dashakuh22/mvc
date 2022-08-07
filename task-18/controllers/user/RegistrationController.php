@@ -34,8 +34,11 @@ class RegistrationController
 
     public function actionIndex(): void
     {
-        $this->twig->getRegistration();
-        exit();
+        if (!isset($_COOKIE['userID'])) {
+            $this->twig->getRegistration();
+            exit();
+        }
+        header('Location: /file-form');
     }
 
     public function actionFail(): void

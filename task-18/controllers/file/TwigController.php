@@ -20,13 +20,27 @@ class TwigController
         ]);
     }
 
-    public function getFiles(array $files, string $result): void
+    public function getFiles(array $files, array $notification, bool $isSuccess): void
     {
+        $rand = $this->getCheckValue();
+
         echo $this->twig->render('index.html.twig', [
+            'check_value' => $rand,
+
             'files' => $files,
-            'result' => $result,
-            'showResult' => $result === '' ? "fade" : "fade in"
+            'notification' => $notification,
+            'icon' => $isSuccess ? 'done' : 'close',
+            'result' => $isSuccess ? 'success' : 'error',
+            'showResult' => empty($notification) ? "fade" : "fade in"
         ]);
+    }
+
+    private function getCheckValue(): int
+    {
+        $rand = rand();
+        $_SESSION['check_value'] = $rand;
+
+        return $rand;
     }
 
 }

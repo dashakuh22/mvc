@@ -11,7 +11,7 @@ class UserModel
 
     public static function getUserAttribute(string $attribute, string $email, string $password): string
     {
-        $db = DB::getConnection();
+        $db = DB::getConnection('users');
 
         $query = 'SELECT ' . $attribute . ' , password FROM ' . DB::$dbName . ' WHERE email=:email';
 

@@ -53,7 +53,7 @@
 }
 
 .modal-body {
-    align-self: center;
+    text-align-last: center;
 }
 
 .modal-body li {
@@ -92,4 +92,8 @@
 
 .modal.fade.in {
     display: block;
+}
+
+.file-meta {
+    text-align: left;
 }

@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/assets/css/userForm/styles.css">
-    <link rel="stylesheet" href="/assets/css/userForm/notificationStyles.css">
+    <link rel="stylesheet" href="/assets/css/notificationForm/styles.css">
     <link rel="icon" href="data:,">
 </head>
 <body>
@@ -21,7 +21,7 @@
             <div class="icon-box">
                 <i class="material-icons">{{ icon }}</i>
             </div>
-            <a href="/" class="close" data-dismiss="modal" aria-hidden="true">&times;</a>
+            <a href="/{{ action }}" class="close" data-dismiss="modal" aria-hidden="true">&times;</a>
         </div>
         <input type="hidden" value="{{ check_value }}" name="check_value">
         <div class="modal-body {{ result }}">

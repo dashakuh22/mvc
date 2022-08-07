@@ -48,6 +48,7 @@ class TwigController
             'check_value' => $checkValue,
 
             'notification' => $errors,
+            'action' => $isSuccess ? 'file-form' : '',
             'icon' => $isSuccess ? 'done' : 'close',
             'result' => $isSuccess ? 'success' : 'error',
         ]);

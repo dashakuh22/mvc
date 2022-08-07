@@ -9,26 +9,34 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/css/uploading/styles.css">
+    <link rel="stylesheet" href="/assets/css/fileForm/styles.css">
+    <link rel="stylesheet" href="/assets/css/notificationForm/styles.css">
     <link rel="icon" href="data:,">
 </head>
 <div class="container">
     <div class="table-wrapper">
         <div class="table-title">
             <div class="row">
-                <div class="col-xs-6">
-                    <h2>Manage <b>Files</b></h2>
-                </div>
-                <div class="col-xs-6">
-                    <a href="#upload" class="btn btn-success" data-toggle="modal">
-                        <i class="material-icons">&#xe39d;</i><span>Upload New File</span>
-                    </a>
+                <div class="form-row">
+                    <div class="form-group col-xs-4">
+                        <h2>Manage <b>Files</b></h2>
+                    </div>
+                    <div class="form-group col-4">
+                        <a href="/logout" class="btn btn-success">
+                            <i class="material-icons">&#xe9ba;</i><span>Log Out</span>
+                        </a>
+                    </div>
+                    <div class="form-group col-4">
+                        <a href="#upload" class="btn btn-success" data-toggle="modal">
+                            <i class="material-icons">&#xe39d;</i><span>Upload New File</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
         <div>
             {{ include('upload.html.twig') }}
-            {{ include('error.html.twig') }}
+            {{ include('modalNotification.html.twig') }}
         </div>
         <table class="table table-striped table-hover">
             <thead>
@@ -61,5 +69,6 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="/assets/js/modalClose.js"></script>
 </body>
 </html>

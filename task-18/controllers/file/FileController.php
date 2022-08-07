@@ -9,43 +9,56 @@ class FileController
     public TwigController $twig;
     public FileModel $model;
 
-    public string $fileError;
+    public array $fileError;
+    public bool $isFileUploaded;
 
     public function __construct()
     {
         $this->model = new FileModel();
         $this->twig = new TwigController();
-        $this->fileError = '';
+        $this->fileError = [];
+        $this->isFileUploaded = false;
     }
 
     public function actionIndex(): void
     {
-        $this->fileError = '';
-        $this->checkUploads();
-        $data = $this->model->getFiles();
+        if (isset($_COOKIE['userID'])) {
 
-        $newData = [];
-        foreach ($data as $file) {
-            $info = explode('.', $file);
-            $newData[] = [
-                'id' => $info[0],
-                'name' => $info[1],
-                'fullName' => $file,
-                'type' => $info[2],
-                'size' => $this->getConvertedSize($info[3]),
-                'extension' => $info[4],
-                'meta' => $this->getFlattenArray($this->model->getEXIF($file, $info[4]))
-            ];
+            if (isset($_SESSION['check_value']) && isset($_POST['check_value'])
+                && $_POST['check_value'] == $_SESSION['check_value']) {
+                $this->checkUploads();
+            }
+
+            $data = $this->model->getFiles();
+            $newData = [];
+
+            foreach ($data as $file) {
+                $info = explode('.', $file);
+                $newData[] = [
+                    'id' => $info[0],
+                    'name' => $info[1],
+                    'fullName' => $file,
+                    'type' => $info[2],
+                    'size' => $this->getConvertedSize($info[3]),
+                    'extension' => $info[4],
+                    'meta' => $this->getFlattenArray($this->model->getEXIF($file, $info[4]))
+                ];
+            }
+            $this->twig->getFiles($newData, $this->fileError, $this->isFileUploaded);
+            exit();
+        } else {
+            header('Location: /');
         }
-        echo $this->twig->getFiles($newData, $this->fileError);
     }
 
     public function checkUploads(): void
     {
         if (isset($_FILES['file'])) {
             $data = $this->getData();
-            $this->fileError = $this->model->uploadFile($data['name'], $data['extension'], $data['size'], $data['tmp_name']);
-            $this->model->updateLog($data['name'], $data['convertedSize'], $this->fileError);
+            $this->isFileUploaded = $this->model->isFileUploaded(
+                $data['name'], $data['extension'], $data['size'], $data['tmp_name']
+            );
+            $this->fileError[] = $this->model->getFileError();
         }
     }
 
