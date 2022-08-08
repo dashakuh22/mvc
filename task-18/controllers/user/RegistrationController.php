@@ -21,15 +21,20 @@ class RegistrationController
     ];
 
     public const PASSWORD_INFO = "Your password should have at least:<ul>
-                       <li>1 digit</li><li>1 small character</li><li>1 capital character</li>
-                       <li>1 special character</li><li>be >= 6 characters long</li></ul>";
+                       <li>1 digit</li>
+                       <li>1 small character</li>
+                       <li>1 capital character</li>
+                       <li>1 special character</li>
+                       <li>be >= 6 characters long</li></ul>";
 
     public TwigController $twig;
+    public UserModel $model;
 
     public function __construct()
     {
         $this->error = [];
         $this->twig = new TwigController();
+        $this->model = new UserModel();
     }
 
     public function actionIndex(): void
@@ -63,8 +68,13 @@ class RegistrationController
                 if ($this->registration()) {
                     $this->twig->getNotification(true, $this->error);
                 } else {
-                    $this->twig->getRegistrationResult(false, $this->error,
-                        $_SESSION['email'], $_SESSION['first_name'], $_SESSION['last_name']);
+                    $this->twig->getRegistrationResult(
+                        false,
+                        $this->error,
+                        $_SESSION['email'],
+                        $_SESSION['first_name'],
+                        $_SESSION['last_name']
+                    );
                 }
 
                 exit();
@@ -99,7 +109,7 @@ class RegistrationController
         $this->checkPassword($_POST['password'], $_POST['confirm_password']);
 
         if (empty($this->error)) {
-            UserModel::addUser($_POST['email'], $_POST['first_name'], $_POST['last_name'], $_POST['password']);
+            $this->model->addUser($_POST['email'], $_POST['first_name'], $_POST['last_name'], $_POST['password']);
             $_SESSION['email'] = '';
             $_SESSION['first_name'] = '';
             $_SESSION['last_name'] = '';
@@ -116,12 +126,14 @@ class RegistrationController
         if (!$this->checkEmailValidation($email)) {
             $this->error[] = $this->errors['bad email'];
             $_SESSION['email'] = '';
+
             return;
         }
 
-        if (UserModel::getUserByEmail($email)) {
+        if ($this->model->getUserByEmail($email)) {
             $this->error[] = $this->errors['bad user'];
             $_SESSION['email'] = '';
+
             return;
         }
 
@@ -155,6 +167,7 @@ class RegistrationController
     public function checkNameValidation(string $name): string
     {
         $name = ucfirst($name);
+
         return preg_match('@^[A-z]*$@', $name);
     }
 
@@ -173,9 +186,12 @@ class RegistrationController
 
     public function checkPasswordValidation(string $password): bool
     {
-        return preg_match('@\d@', $password) && preg_match('@\W@', $password)
-            && preg_match('@[A-ZА-Я]@', $password) && preg_match('@[a-zа-я]@', $password)
-            && !preg_match('@\s@', $password) && strlen($password) >= 6;
+        return preg_match('@\d@', $password)
+            && preg_match('@\W@', $password)
+            && preg_match('@[A-ZА-Я]@', $password)
+            && preg_match('@[a-zа-я]@', $password)
+            && !preg_match('@\s@', $password)
+            && strlen($password) >= 6;
     }
 
 }

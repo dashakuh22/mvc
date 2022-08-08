@@ -3,14 +3,12 @@
 namespace App\models;
 
 use PNGMetadata\PNGMetadata;
-use ZipArchive;
 
 class FileModel
 {
 
     private mixed $configs;
     private string $curDir;
-    private string $curFile;
 
     private string $error;
 
@@ -87,8 +85,7 @@ class FileModel
 
     public function checkFileExtension(string $fileExtension): bool
     {
-        if (!$this->checkByType($fileExtension, 'image') &&
-            !$this->checkByType($fileExtension, 'text')) {
+        if (!$this->checkByType($fileExtension, 'image') && !$this->checkByType($fileExtension, 'text')) {
             $this->error = $this->errors['Bad extension'];
 
             return false;
@@ -114,8 +111,8 @@ class FileModel
 
     public function checkFileIsUploaded(string $name, string $tempName, int $size, string $extension): bool
     {
-        $this->curFile = $this->createFileName($name, $size, $extension);
-        if (!move_uploaded_file($tempName, $this->createFilePath($this->curFile))) {
+        $file = $this->createFileName($name, $size, $extension);
+        if (!move_uploaded_file($tempName, $this->createFilePath($file))) {
             $this->error = $this->errors['Bad file'];
 
             return false;

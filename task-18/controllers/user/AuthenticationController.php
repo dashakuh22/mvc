@@ -1,6 +1,5 @@
 <?php
 
-use App\models\AttacksModel;
 use App\models\UserModel;
 use App\controllers\user\TwigController;
 
@@ -131,23 +130,24 @@ class AuthenticationController
         if ($this->isTooManyAttempts($userIP)) {
 
             if ($this->isIpBlocked($userIP)) {
-
                 $this->error[] = $this->errors['bad attempts'];
                 $this->error[] = 'Left time: ' . $this->getLeftMinutes($userIP) . ' minutes';
 
                 if (!$_SESSION['block'][$userIP]) {
                     $this->model->updateLog(
-                        $userIP, $_POST['email'], $this->getLastTimeAttempt($userIP), $this->getEndOfBlock($userIP)
+                        $userIP,
+                        $_POST['email'],
+                        $this->getLastTimeAttempt($userIP),
+                        $this->getEndOfBlock($userIP)
                     );
                 }
 
                 $_SESSION['block'][$userIP] = true;
 
             } else {
-
                 unset($_SESSION['attempts'][$userIP]);
-                return true;
 
+                return true;
             }
 
             return false;

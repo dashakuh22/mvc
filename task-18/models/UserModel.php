@@ -3,6 +3,7 @@
 namespace App\models;
 
 use App\components\DB;
+use PDO;
 
 class UserModel
 {
@@ -30,7 +31,7 @@ class UserModel
         $result = $db->prepare($query);
         $result->bindParam(':email', $email);
         $result->execute();
-        $userInfo = $result->fetch(\PDO::FETCH_ASSOC);
+        $userInfo = $result->fetch(PDO::FETCH_ASSOC);
 
         if ($userInfo) {
             if (password_verify($password, $userInfo['password'])) {
