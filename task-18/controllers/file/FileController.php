@@ -30,21 +30,9 @@ class FileController
             }
 
             $data = $this->model->getFiles();
-            $newData = [];
+            $newData = $this->getFilesData($data);
 
-            foreach ($data as $file) {
-                $info = explode('.', $file);
-                $newData[] = [
-                    'id' => $info[0],
-                    'name' => $info[1],
-                    'fullName' => $file,
-                    'type' => $info[2],
-                    'size' => $this->getConvertedSize($info[3]),
-                    'extension' => $info[4],
-                    'meta' => $this->getFlattenArray($this->model->getEXIF($file, $info[4]))
-                ];
-            }
-            $this->twig->getFiles($newData, $this->fileError, $this->isFileUploaded);
+            $this->twig->getFileForm($newData, $this->fileError, $this->isFileUploaded);
             exit();
 
         } else {
@@ -56,16 +44,43 @@ class FileController
     {
         if (isset($_FILES['file'])) {
             $data = $this->getData();
+
             $this->isFileUploaded = $this->model->isFileUploaded(
                 $data['name'], $data['extension'], $data['size'], $data['tmp_name']
             );
+
+            if ($this->isFileUploaded) {
+                $this->model->updateLog($data['full_name'], $data['convertedSize']);
+            }
+
             $this->fileError[] = $this->model->getFileError();
         }
+    }
+
+    public function getFilesData(array $files): array
+    {
+        $data = [];
+
+        foreach ($files as $file) {
+            $info = explode('.', $file);
+            $data[] = [
+                'id' => $info[0],
+                'name' => $info[1],
+                'fullName' => $file,
+                'type' => $info[2],
+                'size' => $this->getConvertedSize($info[3]),
+                'extension' => $info[4],
+                'meta' => $this->getFlattenArray($this->model->getEXIF($file, $info[4]))
+            ];
+        }
+
+        return $data;
     }
 
     public function getData(): array
     {
         return [
+            'full_name' => $_FILES['file']['name'],
             'name' => $this->getName($_FILES['file']['name']),
             'size' => $_FILES['file']['size'],
             'type' => $_FILES['file']['type'],

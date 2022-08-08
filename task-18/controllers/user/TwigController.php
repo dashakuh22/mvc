@@ -54,7 +54,7 @@ class TwigController
         ]);
     }
 
-    public function getRegistrationResult(bool $isRegistered, array $errors, string $email,
+    public function getRegistrationResult(bool   $isRegistered, array $errors, string $email,
                                           string $firstName, string $lastName): void
     {
         $rand = $this->getCheckValue();

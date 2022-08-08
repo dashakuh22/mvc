@@ -12,9 +12,6 @@ class FileModel
     private string $curDir;
     private string $curFile;
 
-    private string $archiveName;
-    private string $archiveSize;
-
     private string $error;
 
     private array $errors = [
@@ -42,7 +39,6 @@ class FileModel
         $this->curDir = getcwd();
         @mkdir(file_build_path($this->curDir, $this->configs['files']));
         @mkdir(file_build_path($this->curDir, $this->configs['files_log']));
-        @mkdir(file_build_path($this->curDir, $this->configs['files_zip']));
         date_default_timezone_set('Europe/Minsk');
     }
 
@@ -64,8 +60,6 @@ class FileModel
             && $this->checkFreeSpace($size)
             && $this->checkFileIsUploaded($name, $tempName, $size, $extension)) {
 
-            $this->archiveFile();
-            $this->updateLog(implode('.', [$name, $extension]), $size);
             $this->error = $this->errors['Ok'];
 
             return true;
@@ -77,7 +71,11 @@ class FileModel
     {
         $date = date("d-m-Y H:i:s");
         $logFile = file_build_path($this->curDir, $this->configs['files_log'], $this->getLogName());
-        $info = "$date : $name - $size - $this->archiveName - $this->archiveSize\n";
+        $info = "
+        Date: $date
+        File name: $name
+        File size: $size
+        *****************\n";
 
         file_put_contents($logFile, $info, FILE_APPEND);
     }
@@ -123,31 +121,6 @@ class FileModel
             return false;
         }
         return true;
-    }
-
-    public function archiveFile(): void
-    {
-        $this->archiveName = $this->curFile . '.zip';
-
-        $archive = new ZipArchive();
-
-        if ($archive->open(file_build_path($this->curDir, $this->configs['files_zip'], $this->archiveName),
-            ZipArchive::CREATE)) {
-
-            $archive->addFile(file_build_path(ROOT, $this->configs['files'], $this->curFile));
-            $archive->close();
-        }
-
-        //unlink(file_build_path(ROOT, $this->configs['files'], $this->curFile));
-
-        if ($archive->open(file_build_path($this->curDir, $this->configs['files_zip'], $this->archiveName))) {
-
-            $stat = $archive->statIndex(0);
-            $this->archiveSize = $stat['comp_size'];
-            $archive->close();
-
-        }
-
     }
 
     public function createFilePath(string $name): string

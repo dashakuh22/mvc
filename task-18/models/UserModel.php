@@ -15,7 +15,7 @@ class UserModel
     public function __construct()
     {
         $this->configs = require_once file_build_path(ROOT, 'config', 'configDirectories.php');
-        
+
         $this->curDir = getcwd();
         @mkdir(file_build_path($this->curDir, $this->configs['attacks_log']));
         date_default_timezone_set('Europe/Minsk');

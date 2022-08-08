@@ -36,7 +36,7 @@ class Router
                 $params = $pathParts;
 
                 $controllerFile = file_build_path(ROOT, 'controllers', $controller, $controllerName . '.php');
-//                echo $controllerFile;
+
                 if (file_exists($controllerFile)) {
                     require_once $controllerFile;
                 }

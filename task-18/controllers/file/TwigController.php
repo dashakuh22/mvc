@@ -20,7 +20,7 @@ class TwigController
         ]);
     }
 
-    public function getFiles(array $files, array $notification, bool $isSuccess): void
+    public function getFileForm(array $files, array $notification, bool $isSuccess): void
     {
         $rand = $this->getCheckValue();
 
