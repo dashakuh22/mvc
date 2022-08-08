@@ -9,18 +9,19 @@ class UserModel
 
     const HASH_ALGO = PASSWORD_BCRYPT;
 
-    private static mixed $configs;
-    private static string $curDir;
+    private mixed $configs;
+    private string $curDir;
 
     public function __construct()
     {
-        self::$configs = require_once file_build_path(ROOT, 'config', 'configDirectories.php');
-        self::$curDir = getcwd();
-        @mkdir(file_build_path(self::$curDir, self::$configs['attacks_log']));
+        $this->configs = require_once file_build_path(ROOT, 'config', 'configDirectories.php');
+        
+        $this->curDir = getcwd();
+        @mkdir(file_build_path($this->curDir, $this->configs['attacks_log']));
         date_default_timezone_set('Europe/Minsk');
     }
 
-    public static function getUserAttribute(string $attribute, string $email, string $password): string
+    public function getUserAttribute(string $attribute, string $email, string $password): string
     {
         $db = DB::getConnection();
 
@@ -40,7 +41,7 @@ class UserModel
         return '';
     }
 
-    public static function getUserByEmail(string $email): bool
+    public function getUserByEmail(string $email): bool
     {
         $db = DB::getConnection();
 
@@ -53,7 +54,7 @@ class UserModel
         return $result->rowCount() > 0;
     }
 
-    public static function addUser(string $email, string $firstName, string $lastName, string $password): bool
+    public function addUser(string $email, string $firstName, string $lastName, string $password): bool
     {
         $db = DB::getConnection();
 
@@ -70,14 +71,14 @@ class UserModel
         return $result->execute();
     }
 
-    public static function getPasswordHash(string $password): string
+    public function getPasswordHash(string $password): string
     {
         return password_hash($password, self::HASH_ALGO);
     }
 
-    public static function updateLog(string $ip, string $email, int $start, int $end): void
+    public function updateLog(string $ip, string $email, int $start, int $end): void
     {
-        $logFileName = file_build_path(self::$curDir, self::$configs['attacks_log'], self::getLogName());
+        $logFileName = file_build_path($this->curDir, $this->configs['attacks_log'], self::getLogName());
         $start = date('d-m-Y H:i:s', $start);
         $end = date('d-m-Y H:i:s', $end);
 

@@ -36,8 +36,8 @@ class FileModel
     /** Use @ to suppress error messages **/
     public function __construct()
     {
-        $this->configs = require_once file_build_path(ROOT, 'config', 'configDirectories.php');
         $this->error = '';
+        $this->configs = require_once file_build_path(ROOT, 'config', 'configDirectories.php');
 
         $this->curDir = getcwd();
         @mkdir(file_build_path($this->curDir, $this->configs['files']));

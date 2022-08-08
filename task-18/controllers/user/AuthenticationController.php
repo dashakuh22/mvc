@@ -9,7 +9,9 @@ class AuthenticationController
 
     public const ATTEMPTS_COUNT = 3;
 
-    public const BLOCK_TIME = 15 * 60; // secs
+    public const BLOCK_TIME = 15 * 60;
+    public const COOKIE_WEEK = 7 * 24 * 60 * 60;
+    public const COOKIE_MINUTE = 60;
 
     public array $error;
 
@@ -21,11 +23,13 @@ class AuthenticationController
     ];
 
     public TwigController $twig;
+    public UserModel $model;
 
     public function __construct()
     {
         $this->error = [];
         $this->twig = new TwigController();
+        $this->model = new UserModel();
     }
 
     public function actionIndex(): void
@@ -48,7 +52,7 @@ class AuthenticationController
     public function actionLogout(): void
     {
         if (isset($_COOKIE['userID'])) {
-            setcookie('userID', '', time() - 7 * 24 * 60 * 60);
+            setcookie('userID', '', time() - self::COOKIE_WEEK);
         }
         header('Location: /');
     }
@@ -69,17 +73,17 @@ class AuthenticationController
                 $_SESSION['email'] = $data['email'];
                 $_SESSION['password'] = $data['password'];
 
-                $userName = UserModel::getUserAttribute('first_name', $data['email'], $data['password']);
-                $userID = UserModel::getUserAttribute('id', $data['email'], $data['password']);
+                $userName = $this->model->getUserAttribute('first_name', $data['email'], $data['password']);
+                $userID = $this->model->getUserAttribute('id', $data['email'], $data['password']);
 
                 if (!empty($userName)) {
 
                     unset($_SESSION['attempts']);
 
                     if (isset($_POST['remember'])) {
-                        setcookie('userID', $userID, time() + 7 * 24 * 60 * 60);
+                        setcookie('userID', $userID, time() + self::COOKIE_WEEK);
                     } else {
-                        setcookie('userID', $userID, time() + 15 * 60);
+                        setcookie('userID', $userID, time() + self::COOKIE_MINUTE);
                     }
 
                     $this->error[] = $this->errors['success'] . $userName;
@@ -132,7 +136,7 @@ class AuthenticationController
                 $this->error[] = 'Left time: ' . $this->getLeftMinutes($userIP) . ' minutes';
 
                 if (!$_SESSION['block'][$userIP]) {
-                    UserModel::updateLog(
+                    $this->model->updateLog(
                         $userIP, $_POST['email'], $this->getLastTimeAttempt($userIP), $this->getEndOfBlock($userIP)
                     );
                 }
