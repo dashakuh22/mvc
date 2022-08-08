@@ -9,9 +9,20 @@ class UserModel
 
     const HASH_ALGO = PASSWORD_BCRYPT;
 
+    private static mixed $configs;
+    private static string $curDir;
+
+    public function __construct()
+    {
+        self::$configs = require_once file_build_path(ROOT, 'config', 'configDirectories.php');
+        self::$curDir = getcwd();
+        @mkdir(file_build_path(self::$curDir, self::$configs['attacks_log']));
+        date_default_timezone_set('Europe/Minsk');
+    }
+
     public static function getUserAttribute(string $attribute, string $email, string $password): string
     {
-        $db = DB::getConnection('users');
+        $db = DB::getConnection();
 
         $query = 'SELECT ' . $attribute . ' , password FROM ' . DB::$dbName . ' WHERE email=:email';
 
@@ -62,6 +73,27 @@ class UserModel
     public static function getPasswordHash(string $password): string
     {
         return password_hash($password, self::HASH_ALGO);
+    }
+
+    public static function updateLog(string $ip, string $email, int $start, int $end): void
+    {
+        $logFileName = file_build_path(self::$curDir, self::$configs['attacks_log'], self::getLogName());
+        $start = date('d-m-Y H:i:s', $start);
+        $end = date('d-m-Y H:i:s', $end);
+
+        $info = "
+        IP-address: $ip
+        email: $email
+        start blocking: $start
+        end blocking: $end
+        *****************\n";
+
+        file_put_contents($logFileName, $info, FILE_APPEND);
+    }
+
+    public static function getLogName(): string
+    {
+        return 'attack_' . date('dmY') . '.log';
     }
 
 }

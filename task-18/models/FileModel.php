@@ -76,12 +76,15 @@ class FileModel
     public function updateLog(string $name, string $size): void
     {
         $date = date("d-m-Y H:i:s");
-
-        $logFile = file_build_path($this->curDir, $this->configs['files_log'],
-            'upload_' . date('dmY') . '.log');
+        $logFile = file_build_path($this->curDir, $this->configs['files_log'], $this->getLogName());
         $info = "$date : $name - $size - $this->archiveName - $this->archiveSize\n";
 
         file_put_contents($logFile, $info, FILE_APPEND);
+    }
+
+    public function getLogName(): string
+    {
+        return 'upload_' . date('dmY') . '.log';
     }
 
     public function checkFileExtension(string $fileExtension): bool
@@ -89,6 +92,7 @@ class FileModel
         if (!$this->checkByType($fileExtension, 'image') &&
             !$this->checkByType($fileExtension, 'text')) {
             $this->error = $this->errors['Bad extension'];
+
             return false;
         }
         return true;
@@ -104,6 +108,7 @@ class FileModel
         $space = disk_free_space($this->curDir);
         if ($fileSize > $space) {
             $this->error = $this->errors['Bad size'];
+
             return false;
         }
         return true;

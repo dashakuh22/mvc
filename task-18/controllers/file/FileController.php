@@ -46,6 +46,7 @@ class FileController
             }
             $this->twig->getFiles($newData, $this->fileError, $this->isFileUploaded);
             exit();
+
         } else {
             header('Location: /');
         }
@@ -89,6 +90,7 @@ class FileController
             $fileSize = round($fileSize / 1024, 2);
             $prefix++;
         }
+
         return match ($prefix) {
             0 => "$fileSize b",
             1 => "$fileSize kb",

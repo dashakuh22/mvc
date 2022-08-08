@@ -2,11 +2,9 @@
     <div class="modal-dialog">
         <div class="modal-content view">
             <form action="/file-form" method="post" enctype="multipart/form-data">
-                <div class="modal-header">
+                <div class="modal-body success">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
+                    <div class="form-group col-6">
                         <label for="file_name">File Name</label>
                         <input id="file_name" class="form-control" value="{{ file.name }}" disabled>
                         <label for="file_extension">File Extension</label>
@@ -16,9 +14,9 @@
                         <label for="file_size">File Size</label>
                         <input id="file_size" class="form-control" value="{{ file.size }}" disabled>
                         {% if file.meta|length > 0 %}
-                            <label for="file_meta">Meta Info</label>
+                            <label>Meta Info</label>
                             {% for header, info in file.meta %}
-                                <input id="file-meta" class="form-control" value="{{ header }}: {{ info }}" disabled>
+                                <li>{{ header }}: {{ info }}</li>
                             {% endfor %}
                             <label for="image">Image</label>
                             <a href="uploads/{{ file.fullName }}" target="_blank">

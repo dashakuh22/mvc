@@ -26,10 +26,6 @@ class AuthenticationController
     {
         $this->error = [];
         $this->twig = new TwigController();
-        $this->configs = require_once file_build_path(ROOT, 'config', 'configDirectories.php');
-        $this->curDir = getcwd();
-        @mkdir(file_build_path($this->curDir, $this->configs['attacks_log']));
-        date_default_timezone_set('Europe/Minsk');
     }
 
     public function actionIndex(): void
@@ -77,6 +73,7 @@ class AuthenticationController
                 $userID = UserModel::getUserAttribute('id', $data['email'], $data['password']);
 
                 if (!empty($userName)) {
+
                     unset($_SESSION['attempts']);
 
                     if (isset($_POST['remember'])) {
@@ -130,11 +127,12 @@ class AuthenticationController
         if ($this->isTooManyAttempts($userIP)) {
 
             if ($this->isIpBlocked($userIP)) {
+
                 $this->error[] = $this->errors['bad attempts'];
                 $this->error[] = 'Left time: ' . $this->getLeftMinutes($userIP) . ' minutes';
 
                 if (!$_SESSION['block'][$userIP]) {
-                    $this->updateLog(
+                    UserModel::updateLog(
                         $userIP, $_POST['email'], $this->getLastTimeAttempt($userIP), $this->getEndOfBlock($userIP)
                     );
                 }
@@ -142,9 +140,10 @@ class AuthenticationController
                 $_SESSION['block'][$userIP] = true;
 
             } else {
-                unset($_SESSION['attempts'][$userIP]);
 
+                unset($_SESSION['attempts'][$userIP]);
                 return true;
+
             }
 
             return false;
@@ -183,7 +182,7 @@ class AuthenticationController
 
     public function getMinutes(int $time): int
     {
-        return $time / 60;
+        return ceil($time / 60);
     }
 
     public function getIP(): string
@@ -203,20 +202,6 @@ class AuthenticationController
         }
 
         return $ip;
-    }
-
-    public function updateLog(string $ip, string $email, int $start, int $end): void
-    {
-        $logFileName = file_build_path($this->curDir, $this->configs['attacks_log'], 'attack_' . date('dmY') . '.log');
-        $start = date('d-m-Y H:i:s', $start);
-        $end = date('d-m-Y H:i:s', $end);
-        $info = "
-        IP-address: $ip
-        email: $email
-        start blocking: $start
-        end blocking: $end
-        *****************\n";
-        file_put_contents($logFileName, $info, FILE_APPEND);
     }
 
 }
