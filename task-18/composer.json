@@ -1,0 +1,20 @@
+{
+    "name": "dasha/task-18",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": ""
+        }
+    },
+    "authors": [
+        {
+            "name": "dashakuh22",
+            "email": "dashakuh14@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "twig/twig": "^3.4",
+        "joserick/png-metadata": "^0.2.7"
+    }
+}
