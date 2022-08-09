@@ -1,5 +1,6 @@
 <?php
 
+use App\components\Logger;
 use App\models\FileModel;
 use App\controllers\file\TwigController;
 
@@ -8,16 +9,19 @@ class FileController
 
     public TwigController $twig;
     public FileModel $model;
+    public Logger $logger;
 
     public array $fileError;
     public bool $isFileUploaded;
 
     public function __construct()
     {
-        $this->model = new FileModel();
-        $this->twig = new TwigController();
         $this->fileError = [];
         $this->isFileUploaded = false;
+
+        $this->logger = new Logger();
+        $this->model = new FileModel();
+        $this->twig = new TwigController();
     }
 
     public function actionIndex(): void
@@ -50,7 +54,11 @@ class FileController
             );
 
             if ($this->isFileUploaded) {
-                $this->model->updateLog($data['full_name'], $data['convertedSize']);
+                $this->logger->logFile([
+                    'date' => date("d-m-Y H:i:s"),
+                    'name' => $data['full_name'],
+                    'size' => $data['size'],
+                ]);
             }
 
             $this->fileError[] = $this->model->getFileError();

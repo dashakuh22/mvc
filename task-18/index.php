@@ -1,15 +1,11 @@
 <?php
 
-session_start();
-
 function file_build_path(...$segments)
 {
     return implode(DIRECTORY_SEPARATOR, $segments);
 }
 
-const ROOT = __DIR__;
-
-require_once file_build_path(ROOT, 'vendor', 'autoload.php');
+require_once file_build_path(getcwd(), 'vendor', 'autoload.php');
 
 use App\components\Router;
 

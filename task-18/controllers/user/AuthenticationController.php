@@ -1,5 +1,6 @@
 <?php
 
+use App\components\Logger;
 use App\models\UserModel;
 use App\controllers\user\TwigController;
 
@@ -23,12 +24,15 @@ class AuthenticationController
 
     public TwigController $twig;
     public UserModel $model;
+    public Logger $logger;
 
     public function __construct()
     {
         $this->error = [];
-        $this->twig = new TwigController();
+
+        $this->logger = new Logger();
         $this->model = new UserModel();
+        $this->twig = new TwigController();
     }
 
     public function actionIndex(): void
@@ -134,12 +138,16 @@ class AuthenticationController
                 $this->error[] = 'Left time: ' . $this->getLeftMinutes($userIP) . ' minutes';
 
                 if (!$_SESSION['block'][$userIP]) {
-                    $this->model->updateLog(
-                        $userIP,
-                        $_POST['email'],
-                        $this->getLastTimeAttempt($userIP),
-                        $this->getEndOfBlock($userIP)
-                    );
+
+                    $start = date('d-m-Y H:i:s', $this->getLastTimeAttempt($userIP));
+                    $end = date('d-m-Y H:i:s', $this->getEndOfBlock($userIP));
+
+                    $this->logger->logAttack([
+                        'ip' => $userIP,
+                        'email' => $_POST['email'],
+                        'start' => $start,
+                        'end' => $end
+                    ]);
                 }
 
                 $_SESSION['block'][$userIP] = true;
@@ -191,8 +199,6 @@ class AuthenticationController
 
     public function getIP(): string
     {
-        $ip = '';
-
         if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
             return $_SERVER['HTTP_CLIENT_IP'];
         }
@@ -201,11 +207,7 @@ class AuthenticationController
             return $_SERVER['HTTP_X_FORWARDED_FOR'];
         }
 
-        if (!empty($_SERVER['REMOTE_ADDR'])) {
-            return $_SERVER['REMOTE_ADDR'];
-        }
-
-        return $ip;
+        return $_SERVER['REMOTE_ADDR'];
     }
 
 }

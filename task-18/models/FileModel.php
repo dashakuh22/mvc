@@ -32,11 +32,10 @@ class FileModel
     public function __construct()
     {
         $this->error = '';
-        $this->configs = require_once file_build_path(ROOT, 'config', 'configDirectories.php');
-
         $this->curDir = getcwd();
+        $this->configs = require file_build_path($this->curDir, 'config', 'configDirectories.php');
+
         @mkdir(file_build_path($this->curDir, $this->configs['files']));
-        @mkdir(file_build_path($this->curDir, $this->configs['files_log']));
         date_default_timezone_set('Europe/Minsk');
     }
 
@@ -54,7 +53,8 @@ class FileModel
 
     public function isFileUploaded(string $name, string $extension, string $size, string $tempName): bool
     {
-        if ($this->checkFileExtension($extension)
+        if (
+            $this->checkFileExtension($extension)
             && $this->checkFreeSpace($size)
             && $this->checkFileIsUploaded($name, $tempName, $size, $extension)) {
 
@@ -63,24 +63,6 @@ class FileModel
             return true;
         }
         return false;
-    }
-
-    public function updateLog(string $name, string $size): void
-    {
-        $date = date("d-m-Y H:i:s");
-        $logFile = file_build_path($this->curDir, $this->configs['files_log'], $this->getLogName());
-        $info = "
-        Date: $date
-        File name: $name
-        File size: $size
-        *****************\n";
-
-        file_put_contents($logFile, $info, FILE_APPEND);
-    }
-
-    public function getLogName(): string
-    {
-        return 'upload_' . date('dmY') . '.log';
     }
 
     public function checkFileExtension(string $fileExtension): bool

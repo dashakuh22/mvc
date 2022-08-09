@@ -14,7 +14,7 @@ class DB
     {
         try {
 
-            $paramsPath = file_build_path(ROOT, 'config', 'configDB.php');
+            $paramsPath = file_build_path(getcwd(), 'config', 'configDB.php');
             $params = include $paramsPath;
 
             self::$dbName = $params['dbTableName'];
