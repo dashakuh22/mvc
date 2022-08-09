@@ -30,7 +30,7 @@ class AuthenticationController
     {
         $this->error = [];
 
-        $this->logger = new Logger();
+        $this->logger = new Logger('attacks_log');
         $this->model = new UserModel();
         $this->twig = new TwigController();
     }
@@ -138,15 +138,11 @@ class AuthenticationController
                 $this->error[] = 'Left time: ' . $this->getLeftMinutes($userIP) . ' minutes';
 
                 if (!$_SESSION['block'][$userIP]) {
-
-                    $start = date('d-m-Y H:i:s', $this->getLastTimeAttempt($userIP));
-                    $end = date('d-m-Y H:i:s', $this->getEndOfBlock($userIP));
-
-                    $this->logger->logAttack([
+                    $this->logger->notice('Attack', [
                         'ip' => $userIP,
                         'email' => $_POST['email'],
-                        'start' => $start,
-                        'end' => $end
+                        'start' => date('d-m-Y H:i:s', $this->getLastTimeAttempt($userIP)),
+                        'end' => date('d-m-Y H:i:s', $this->getEndOfBlock($userIP))
                     ]);
                 }
 

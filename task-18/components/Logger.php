@@ -2,52 +2,59 @@
 
 namespace App\components;
 
-use Monolog\Handler\StreamHandler;
+use DateTime;
+use DateTimeInterface;
+use Psr\Log\AbstractLogger;
+use Psr\Log\LoggerInterface;
+use Stringable;
 
-class Logger
+class Logger extends AbstractLogger implements LoggerInterface
 {
 
+    public string $template = "{date} {level} {message} {context}";
+
+    private string $dateFormat = DateTimeInterface::RFC850;
+
     private mixed $configs;
-    private string $curDir;
 
-    public function __construct()
+    private string $fileDir;
+
+    private string $name;
+
+    public function __construct(string $name)
     {
-        $this->curDir = getcwd();
-        $this->configs = require file_build_path($this->curDir, 'config', 'configDirectories.php');
-
-        @mkdir(file_build_path($this->curDir, $this->configs['attacks_log']));
-        @mkdir(file_build_path($this->curDir, $this->configs['uploads_log']));
+        $this->configs = require file_build_path(getcwd(), 'config', 'configDirectories.php');
+        $this->fileDir = file_build_path(getcwd(), $this->configs[$name]);
         date_default_timezone_set('Europe/Minsk');
+        $this->name = $this->configs[$name];
+        @mkdir($this->fileDir);
     }
 
-    public function logFile(array $info): void
+    public function log($level, Stringable|string $message, array $context = []): void
     {
-        $log = new \Monolog\Logger('files');
-        $file = file_build_path($this->curDir, $this->configs['files_log'], $this->getLogName('upload'));
-        $log->pushHandler(new StreamHandler($file));
-        $log->info('Upload', [
-            'date' => $info['date'],
-            'name' => $info['name'],
-            'size' => $info['size'],
-        ]);
+        file_put_contents(
+            file_build_path($this->fileDir, $this->getLogName()),
+            trim(strtr($this->template, [
+                '{date}' => $this->getDate(),
+                '{level}' => $level,
+                '{message}' => $message,
+                '{context}' => $this->contextStringify($context),
+            ])) . PHP_EOL, FILE_APPEND);
     }
 
-    public function logAttack(array $info): void
+    public function getLogName(): string
     {
-        $log = new \Monolog\Logger('users');
-        $file = file_build_path($this->curDir, $this->configs['attacks_log'], $this->getLogName('attack'));
-        $log->pushHandler(new StreamHandler($file));
-        $log->notice('Attack', [
-            'userIP' => $info['ip'],
-            'email' => $info['email'],
-            'start' => $info['start'],
-            'end' => $info['end'],
-        ]);
+        return $this->name . '_' . date('dmY') . '.log';
     }
 
-    public static function getLogName(string $file): string
+    public function getDate(): string
     {
-        return $file . '_' . date('dmY') . '.log';
+        return (new DateTime())->format($this->dateFormat);
+    }
+
+    public function contextStringify(array $context = []): bool|string|null
+    {
+        return empty($context) ? null : json_encode($context);
     }
 
 }

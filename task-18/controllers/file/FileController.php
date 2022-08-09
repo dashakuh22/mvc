@@ -19,7 +19,7 @@ class FileController
         $this->fileError = [];
         $this->isFileUploaded = false;
 
-        $this->logger = new Logger();
+        $this->logger = new Logger('files_log');
         $this->model = new FileModel();
         $this->twig = new TwigController();
     }
@@ -54,7 +54,7 @@ class FileController
             );
 
             if ($this->isFileUploaded) {
-                $this->logger->logFile([
+                $this->logger->info('Upload', [
                     'date' => date("d-m-Y H:i:s"),
                     'name' => $data['full_name'],
                     'size' => $data['size'],
