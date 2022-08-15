@@ -1,0 +1,20 @@
+<div id="upload" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="/file-form" method="post" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <div class="form-group col-6">
+                        <label for="file_name"> File Name </label>
+                        <input name="file" id="file_name" type="file" class="form-control" required>
+                    </div>
+                </div>
+                <input type="hidden" value="{{ check_value }}" name="check_value">
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    <input type="submit" class="btn btn-info" value="Upload">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
