@@ -1,0 +1,17 @@
+{
+    "name": "dasha/task-19",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": ""
+        }
+    },
+    "authors": [
+        {
+            "name": "dashakuh22",
+            "email": "dashakuh14@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
