@@ -1,0 +1,12 @@
+{
+    "name": "dasha/task-20",
+    "type": "project",
+    "authors": [
+        {
+            "name": "dashakuh22",
+            "email": "dashakuh14@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}

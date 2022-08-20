@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css?family=Parisienne|Quicksand&display=swap');
+
+body {
+    font-weight: 600;
+    font-family: 'Quicksand', sans-serif;
+    background: #9ca3af;
+}
+
+header {
+    font-size: 24px;
+}
+
+.row {
+    font-size: 18px;
+}
+
+.card {
+    background: #a4b0c2;
+}
