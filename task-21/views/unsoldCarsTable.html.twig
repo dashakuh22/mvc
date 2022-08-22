@@ -1,54 +1,38 @@
 <div>
-    <h2 class="text-2xl font-semibold leading-tight">Unsold Cars</h2>
+    <h2 class="text-2xl font-semibold tracking-wide">Unsold Cars</h2>
 </div>
 <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-2 overflow-x-auto">
-    <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
-        <table class="min-w-full leading-normal">
+    <div class="table-area">
+        <table>
             <thead>
             <tr>
-                <th class="table-title">
-                    Car Model
-                </th>
-                <th class="table-title">
-                    Year of Production
-                </th>
-                <th class="table-title">
-                    Color
-                </th>
-                <th class="table-title">
-                    Price
-                </th>
+                <th class="table-item table-title">Car Model</th>
+                <th class="table-item table-title">Year of Production</th>
+                <th class="table-item table-title">Color</th>
+                <th class="table-item table-title">Price</th>
             </tr>
             </thead>
             <tbody>
             {% for car in unsoldCars %}
                 <tr>
-                    <td class="table-cars-content">
+                    <td class="table-item table-cars-content">
                         <div class="ml-3">
-                            <p class="text-gray-900 whitespace-no-wrap">
-                                {{ car.model }}
-                            </p>
+                            <p class="text-item">{{ car.model }}</p>
                         </div>
                     </td>
-                    <td class="table-cars-content">
+                    <td class="table-item table-cars-content">
                         <div class="ml-3">
-                            <p class="text-gray-900 whitespace-no-wrap">
-                                {{ car.production }}
-                            </p>
+                            <p class="text-item">{{ car.production }}</p>
                         </div>
                     </td>
-                    <td class="table-cars-content">
+                    <td class="table-item table-cars-content">
                         <div class="ml-3">
-                            <p class="text-gray-900 whitespace-no-wrap">
-                                {{ car.color }}
-                            </p>
+                            <p class="text-item">{{ car.color }}</p>
                         </div>
                     </td>
-                    <td class="table-cars-content">
+                    <td class="table-item table-cars-content">
                         <div class="ml-3">
-                            <p class="text-gray-900 whitespace-no-wrap">
-                                {{ car.price }}
-                            </p>
+                            <p class="text-item">{{ car.price }}</p>
                         </div>
                     </td>
                 </tr>

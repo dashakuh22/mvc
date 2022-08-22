@@ -1,34 +1,26 @@
 <div>
-    <h2 class="text-2xl font-semibold leading-tight">Cars Sold Last Year</h2>
+    <h2 class="text-2xl font-semibold tracking-wide">Cars Sold Last Year</h2>
 </div>
 <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-3 overflow-x-auto">
-    <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
-        <table class="min-w-full leading-normal">
+    <div class="table-area">
+        <table>
             <thead>
             <tr>
-                <th class="table-title">
-                    Date
-                </th>
-                <th class="table-title">
-                    Number of cars sold
-                </th>
+                <th class="table-item table-title">Date</th>
+                <th class="table-item table-title">Number of cars sold</th>
             </tr>
             </thead>
             <tbody>
             {% for cars in carsSoldLastYear %}
                 <tr>
-                    <td class="table-cars-content">
+                    <td class="table-item table-cars-content">
                         <div class="ml-3">
-                            <p class="text-gray-900 whitespace-no-wrap">
-                                {{ cars.sold_date }}
-                            </p>
+                            <p class="text-item">{{ cars.sold_date }}</p>
                         </div>
                     </td>
-                    <td class="table-cars-content">
+                    <td class="table-item table-cars-content">
                         <div class="ml-3">
-                            <p class="text-gray-900 whitespace-no-wrap">
-                                {{ cars.cars_count }}
-                            </p>
+                            <p class="text-item">{{ cars.cars_count }}</p>
                         </div>
                     </td>
                 </tr>
