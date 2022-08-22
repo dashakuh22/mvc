@@ -1,0 +1,34 @@
+<div class="-mx-4 sm:-mx-8 px-4 sm:px-8 overflow-x-auto">
+    <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
+        <table class="min-w-full leading-normal">
+            <thead>
+            <tr>
+                <th class="table-title">
+                    {{ title }}
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if content is iterable %}
+                {% for car in content %}
+                    <tr>
+                        <td class="table-statistics-content">
+                            <p class="text-center text-gray-900 whitespace-no-wrap">
+                                {{ car.model }}
+                            </p>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td class="table-statistics-content">
+                        <p class="text-center text-gray-900 whitespace-no-wrap">
+                            {{ content }}
+                        </p>
+                    </td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>

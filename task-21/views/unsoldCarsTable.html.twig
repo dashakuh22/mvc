@@ -1,0 +1,59 @@
+<div>
+    <h2 class="text-2xl font-semibold leading-tight">Unsold Cars</h2>
+</div>
+<div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-2 overflow-x-auto">
+    <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
+        <table class="min-w-full leading-normal">
+            <thead>
+            <tr>
+                <th class="table-title">
+                    Car Model
+                </th>
+                <th class="table-title">
+                    Year of Production
+                </th>
+                <th class="table-title">
+                    Color
+                </th>
+                <th class="table-title">
+                    Price
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for car in unsoldCars %}
+                <tr>
+                    <td class="table-cars-content">
+                        <div class="ml-3">
+                            <p class="text-gray-900 whitespace-no-wrap">
+                                {{ car.model }}
+                            </p>
+                        </div>
+                    </td>
+                    <td class="table-cars-content">
+                        <div class="ml-3">
+                            <p class="text-gray-900 whitespace-no-wrap">
+                                {{ car.production }}
+                            </p>
+                        </div>
+                    </td>
+                    <td class="table-cars-content">
+                        <div class="ml-3">
+                            <p class="text-gray-900 whitespace-no-wrap">
+                                {{ car.color }}
+                            </p>
+                        </div>
+                    </td>
+                    <td class="table-cars-content">
+                        <div class="ml-3">
+                            <p class="text-gray-900 whitespace-no-wrap">
+                                {{ car.price }}
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
