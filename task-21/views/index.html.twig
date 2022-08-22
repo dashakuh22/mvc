@@ -12,12 +12,12 @@
     <h1 class="text-3xl text-center tracking-widest font-semibold text-center">Cars Showroom</h1>
 </div>
 <div class="grid grid-cols-2 gap-4">
-    <div class="">
+    <div class="grid">
         {% include('soldCarsTable.html.twig') %}
         {% include('unsoldCarsTable.html.twig') %}
     </div>
     <div class="grid grid-rows-2">
-        <div class="grid grid-cols-2 gap-4 pt-24">
+        <div class="grid grid-cols-2 gap-4 pt-10">
             {% include('statisticsTable.html.twig')
                 with {'title': 'The Average Price on Cars Sold for All Time', 'content': averageForAllTime} %}
             {% include('statisticsTable.html.twig')

@@ -11,34 +11,32 @@ class DashboardModel
     private static array $queries = [
         'averagePriceForAllTime' => 'SELECT showroom_cars.price 
                                      FROM showroom_cars 
-                                     WHERE showroom_cars.sold_status=TRUE',
+                                     WHERE showroom_cars.sold_status = TRUE',
 
         'averagePriceToday' => 'SELECT showroom_cars.price 
                                 FROM showroom_cars 
-                                WHERE showroom_cars.sold_status=TRUE 
-                                AND DATE(showroom_cars.sale_date)=DATE(NOW())',
+                                WHERE showroom_cars.sold_status = TRUE 
+                                AND DATE(showroom_cars.sale_date) = DATE(NOW())',
 
         'carsUnsoldModels' => 'SELECT vehicle_directory.model 
                                FROM vehicle_directory 
-                               INNER JOIN showroom_cars ON vehicle_directory.id=showroom_cars.vehicle_id 
-                               WHERE sold_status=FALSE',
+                               INNER JOIN showroom_cars ON vehicle_directory.id = showroom_cars.vehicle_id 
+                               WHERE sold_status = FALSE',
 
-        'carsSoldLastYear' => 'SELECT 
-                                    DATE(showroom_cars.sale_date) AS sold_date, 
-                                    COUNT(showroom_cars.id) AS cars_count
+        'carsSoldLastYear' => 'SELECT DATE(showroom_cars.sale_date) AS sold_date, 
+                                      COUNT(showroom_cars.id) AS cars_count
                                FROM showroom_cars 
-                               WHERE sold_status=TRUE AND 
-                               YEAR(showroom_cars.sale_date) BETWEEN YEAR(CURDATE() - INTERVAL 1 YEAR) AND YEAR(CURDATE())
+                               WHERE sold_status = TRUE 
+                               AND YEAR(showroom_cars.sale_date) = YEAR(CURDATE() - INTERVAL 1 YEAR)
                                GROUP BY sold_date',
 
-        'carsUnsold' => 'SELECT 
-                              vehicle_directory.model, 
-                              vehicle_directory.production, 
-                              showroom_cars.color, 
-                              showroom_cars.price 
+        'carsUnsold' => 'SELECT vehicle_directory.model, 
+                                vehicle_directory.production, 
+                                showroom_cars.color, 
+                                showroom_cars.price 
                          FROM vehicle_directory 
-                         INNER JOIN showroom_cars ON vehicle_directory.id=showroom_cars.vehicle_id 
-                         WHERE sold_status=FALSE
+                         INNER JOIN showroom_cars ON vehicle_directory.id = showroom_cars.vehicle_id 
+                         WHERE sold_status = FALSE
                          ORDER BY vehicle_directory.production DESC, showroom_cars.price ASC',
     ];
 
