@@ -50,6 +50,27 @@ class DashboardModel
         return self::getUnsoldCarsData(self::$queries['carsUnsoldModels'], false);
     }
 
+    public static function getUnsoldCarsData(string $query, bool $getFullData = true): array
+    {
+        $db = DB::getConnection();
+        $result = $db->prepare($query);
+        $result->execute();
+
+        $models = [];
+        for ($i = 0; $row = $result->fetch(PDO::FETCH_ASSOC); $i++) {
+            $models[$i]['model'] = $row['model'];
+
+            if ($getFullData) {
+                $models[$i]['production'] = $row['production'];
+                $models[$i]['price'] = $row['price'];
+                $models[$i]['color'] = $row['color'];
+            }
+
+        }
+
+        return $models;
+    }
+
     public static function getAveragePriceForAllTime(): string
     {
         return self::getAveragePrice(self::$queries['averagePriceForAllTime']);
@@ -74,27 +95,6 @@ class DashboardModel
         $average /= $result->rowCount();
 
         return $average;
-    }
-
-    public static function getUnsoldCarsData(string $query, bool $getFullData = true): array
-    {
-        $db = DB::getConnection();
-        $result = $db->prepare($query);
-        $result->execute();
-
-        $models = [];
-        for ($i = 0; $row = $result->fetch(PDO::FETCH_ASSOC); $i++) {
-            $models[$i]['model'] = $row['model'];
-
-            if ($getFullData) {
-                $models[$i]['production'] = $row['production'];
-                $models[$i]['price'] = $row['price'];
-                $models[$i]['color'] = $row['color'];
-            }
-
-        }
-
-        return $models;
     }
 
     public static function getCarsSoldLastYear(): array

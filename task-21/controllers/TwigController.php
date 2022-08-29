@@ -29,11 +29,11 @@ class TwigController
     ): void
     {
         echo $this->twig->render('index.html.twig', [
+            'unsoldCars' => $unsoldCars,
+            'carsSoldLastYear' => $carsSoldLastYear,
             'averageForAllTime' => $averageForAllTime,
             'averageToday' => $averageToday,
             'unsoldCarsModels' => $unsoldCarsModels,
-            'unsoldCars' => $unsoldCars,
-            'carsSoldLastYear' => $carsSoldLastYear,
         ]);
         exit();
     }
